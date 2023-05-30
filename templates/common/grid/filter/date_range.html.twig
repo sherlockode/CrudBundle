@@ -1,0 +1,4 @@
+{% trans_default_domain 'SherlockodeCrud' %}
+
+{{ form_row(form.from, {'label': filter.label|trans ~ ' | ' ~ form.from.vars.label|trans}) }}
+{{ form_row(form.to) }}

@@ -1,0 +1,7 @@
+{% trans_default_domain 'SherlockodeCrud' %}
+
+{% if resource is not null and resource == true %}
+    {{ 'sherlockode_crud.boolean.yes'|trans }}
+{% elseif resource is not null and resource == false %}
+    {{ 'sherlockode_crud.boolean.no'|trans }}
+{% endif %}

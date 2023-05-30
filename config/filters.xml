@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<container xmlns="http://symfony.com/schema/dic/services" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://symfony.com/schema/dic/services https://symfony.com/schema/dic/services/services-1.0.xsd">
+    <services>
+        <service id="Sherlockode\CrudBundle\Filter\FilterRegistry" />
+        <service id="Sherlockode\CrudBundle\Form\Type\FormTypeRegistry" />
+
+        <service id="Sherlockode\CrudBundle\Form\Type\Filter\StringFilterType">
+            <tag name="form.type" />
+        </service>
+
+        <service id="Sherlockode\CrudBundle\Filter\StringFilter">
+            <tag name="sherlockode_crud.filter" type="string" form-type="Sherlockode\CrudBundle\Form\Type\Filter\StringFilterType" />
+        </service>
+
+        <service id="Sherlockode\CrudBundle\Form\Type\Filter\BooleanFilterType">
+            <tag name="form.type" />
+        </service>
+
+        <service id="Sherlockode\CrudBundle\Filter\BooleanFilter">
+            <tag name="sherlockode_crud.filter" type="boolean" form-type="Sherlockode\CrudBundle\Form\Type\Filter\BooleanFilterType" />
+        </service>
+
+        <service id="Sherlockode\CrudBundle\Form\Type\Filter\DateFilterType">
+            <tag name="form.type" />
+        </service>
+
+        <service id="Sherlockode\CrudBundle\Filter\DateFilter">
+            <tag name="sherlockode_crud.filter" type="date" form-type="Sherlockode\CrudBundle\Form\Type\Filter\DateFilterType" />
+        </service>
+
+        <service id="Sherlockode\CrudBundle\Form\Type\Filter\DateRangeFilterType">
+            <tag name="form.type" />
+        </service>
+
+        <service id="Sherlockode\CrudBundle\Filter\DateRangeFilter">
+            <tag name="sherlockode_crud.filter" type="date_range" form-type="Sherlockode\CrudBundle\Form\Type\Filter\DateRangeFilterType" />
+        </service>
+    </services>
+</container>

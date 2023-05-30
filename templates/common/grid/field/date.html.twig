@@ -1,0 +1,3 @@
+{% if resource is not null %}
+    {{ resource|date(options.format|default('Y-m-d')) }}
+{% endif %}

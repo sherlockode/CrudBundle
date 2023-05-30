@@ -1,0 +1,5 @@
+{% import '@SherlockodeCrud/common/macro/buttons.html.twig' as buttons %}
+
+{% set path = sherlockode_crud_path_generator(app.request, 'delete', {'id': resource.id}) %}
+
+{{ buttons.delete(path, resource.id) }}

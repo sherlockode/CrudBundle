@@ -1,0 +1,11 @@
+{% trans_default_domain 'SherlockodeCrud' %}
+
+{% macro delete(url, resourceId = null, ajax = false) %}
+    <form action="{{ url }}" method="post">
+        <input type="hidden" name="_method" value="DELETE">
+        <button class="btn btn-danger" type="submit">
+            {{ 'sherlockode_crud.delete'|trans }}
+        </button>
+        <input type="hidden" name="_csrf_token" value="{{ csrf_token(resourceId) }}" />
+    </form>
+{% endmacro %}

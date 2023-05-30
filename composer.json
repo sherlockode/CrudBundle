@@ -1,0 +1,24 @@
+{
+    "name": "sherlockode/crud-bundle",
+    "description": "Bundle to generate CRUD",
+    "keywords": [
+        "crud"
+    ],
+    "license": "MIT",
+    "require": {
+        "php": "^7.3 || ^8.0",
+        "knplabs/knp-paginator-bundle": "5.9.0",
+        "symfony/form": "^5.0 || ^6.0",
+        "symfony/framework-bundle": "^5.0 || ^6.0",
+        "symfony/twig-bundle": "^5.0 || ^6.0",
+        "twig/twig": "^2.0 || ^3.0"
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "autoload": {
+        "psr-4": {
+            "Sherlockode\\CrudBundle\\": "src/"
+        }
+    }
+}

@@ -1,0 +1,9 @@
+{% trans_default_domain 'SherlockodeCrud' %}
+
+{{ form_start(form) }}
+    {% for child in form.children %}
+        {{ form_row(child) }}
+    {% endfor %}
+
+    <button type="submit">{{ 'sherlockode_crud.save'|trans }}</button>
+{{ form_end(form) }}

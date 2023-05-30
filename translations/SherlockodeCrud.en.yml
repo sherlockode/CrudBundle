@@ -1,0 +1,21 @@
+sherlockode_crud:
+    update: Update
+    delete: Delete
+    save: Save
+    actions: Actions
+    boolean:
+        yes: Yes
+        no: No
+    filter:
+        perform: Search
+        reset: Reset filters
+        value: Value
+        contains: Contains
+        not_contains: Not contains
+        equal: Is equal to
+        boolean:
+            yes: Yes
+            no: No
+            all: All
+        from: From
+        to: To

@@ -1,0 +1,56 @@
+{% trans_default_domain 'SherlockodeCrud' %}
+{% from _self import link %}
+{% set order = gridView.grid.sorting|first %}
+{% set orderField = gridView.grid.sorting|keys|first %}
+
+<table>
+    <thead>
+        <tr>
+            {% for field in gridView.grid.fields %}
+                <th>
+                    {% if field.isSortable %}
+                        {% if orderField == field.key %}
+                            <a href="{{ link(field.key, app.request.attributes, (order == 'desc' ? 'asc' : 'desc'), app.request.query) }}">
+                                {{ order == 'desc' ? '&#8595;' : '&#8593;' }} {{ field.label|trans }}
+                            </a>
+                        {% else %}
+                            <a href="{{ link(field.key, app.request.attributes, order, app.request.query) }}">
+                                &#8597; {{ field.label|trans }}
+                            </a>
+                        {% endif %}
+                    {% else %}
+                        {{ field.label|trans }}
+                    {% endif %}
+                </th>
+            {% endfor %}
+            {% if gridView.grid.actions is defined and gridView.grid.actions is not empty %}
+                <th>{{ 'sherlockode_crud.actions'|trans }}</th>
+            {% endif %}
+        </tr>
+    </thead>
+    <tbody>
+        {% for resource in gridView.data %}
+            <tr>
+                {% for field in gridView.grid.fields %}
+                    <td>{{ sherlockode_crud_render_field(field, resource) }}</td>
+                {% endfor %}
+                {% if gridView.grid.actions is defined and gridView.grid.actions is not empty %}
+                    <td>
+                        {% for action in gridView.grid.actions %}
+                            {{ include(action.template) }}
+                        {% endfor %}
+                    </td>
+                {% endif %}
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{{ knp_pagination_render(gridView.data) }}
+
+{% macro link(field, attributes, order, parameters) %}
+    {% set params = attributes.all('_route_params')|merge(parameters) %}
+    {% set sorting = {'sorting': {(field): (order)}} %}
+
+    {{ path(attributes.get('_route'), params|merge(sorting)|merge({'page': 1})) }}
+{% endmacro %}

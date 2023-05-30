@@ -1,0 +1,14 @@
+{% trans_default_domain 'SherlockodeCrud' %}
+
+{% if gridView.grid.filters is not empty %}
+    {% set path = path(app.request.attributes.get('_route'), app.request.attributes.all('_route_params')) %}
+
+    <form method="get">
+        {% for filter in gridView.grid.filters %}
+            {{ sherlockode_crud_render_filter(filter, app.request) }}
+        {% endfor %}
+
+        <button type="submit">{{ 'sherlockode_crud.filter.perform'|trans }}</button>
+        <a href="{{ path }}">{{ 'sherlockode_crud.filter.reset'|trans }}</a>
+    </form>
+{% endif %}

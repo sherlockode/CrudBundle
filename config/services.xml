@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<container xmlns="http://symfony.com/schema/dic/services" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+    <imports>
+        <import resource="twig.xml" />
+        <import resource="filters.xml" />
+    </imports>
+
+    <services>
+        <service id="Sherlockode\CrudBundle\Grid\GridConfiguration">
+            <argument>%sherlockode_crud.grids_definitions%</argument>
+        </service>
+
+        <service id="Sherlockode\CrudBundle\Grid\GridBuilder">
+            <argument type="service" id="Sherlockode\CrudBundle\Grid\GridConfiguration" />
+            <argument>%sherlockode_crud.grid.templates.action%</argument>
+            <argument>%sherlockode_crud.grid.templates.field%</argument>
+            <argument>%sherlockode_crud.grid.templates.filter%</argument>
+        </service>
+
+        <service id="Sherlockode\CrudBundle\Renderer\TwigRenderer">
+            <argument type="service" id="twig"/>
+            <argument type="service" id="property_accessor" />
+            <argument type="service" id="form.factory" />
+            <argument type="service" id="Sherlockode\CrudBundle\Form\Type\FormTypeRegistry" />
+        </service>
+
+        <service id="Sherlockode\CrudBundle\Provider\Filtering">
+            <argument type="service" id="Sherlockode\CrudBundle\Filter\FilterRegistry" />
+        </service>
+
+        <service id="Sherlockode\CrudBundle\Provider\Sorting" />
+
+        <service id="Sherlockode\CrudBundle\Provider\DataProvider">
+            <argument type="service" id="doctrine.orm.entity_manager" />
+            <argument type="service" id="knp_paginator" />
+            <argument type="service" id="Sherlockode\CrudBundle\Provider\Filtering" />
+            <argument type="service" id="Sherlockode\CrudBundle\Provider\Sorting" />
+        </service>
+
+        <service id="Sherlockode\CrudBundle\Routing\ResourceLoader" public="false">
+            <tag name="routing.loader" />
+        </service>
+
+        <service id="Sherlockode\CrudBundle\Controller\ResourceController">
+            <call method="setContainer">
+                <argument type="service" id="service_container" />
+            </call>
+        </service>
+    </services>
+</container>

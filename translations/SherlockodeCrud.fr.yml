@@ -1,0 +1,21 @@
+sherlockode_crud:
+    update: Editer
+    delete: Supprimer
+    save: Sauvegarder
+    actions: Actions
+    boolean:
+        yes: Oui
+        no: Non
+    filter:
+        perform: Filtrer
+        reset: Réinitialiser les filtres
+        value: Valeur
+        contains: Contient
+        not_contains: Ne contient pas
+        equal: Est égal à
+        boolean:
+            yes: Oui
+            no: Non
+            all: Tous
+        from: De
+        to: À
