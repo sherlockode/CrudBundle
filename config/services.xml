@@ -40,11 +40,5 @@
         <service id="Sherlockode\CrudBundle\Routing\ResourceLoader" public="false">
             <tag name="routing.loader" />
         </service>
-
-        <service id="Sherlockode\CrudBundle\Controller\ResourceController">
-            <call method="setContainer">
-                <argument type="service" id="service_container" />
-            </call>
-        </service>
     </services>
 </container>
