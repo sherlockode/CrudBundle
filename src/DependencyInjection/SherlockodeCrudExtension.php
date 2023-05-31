@@ -39,7 +39,6 @@ class SherlockodeCrudExtension extends Extension
         foreach ($config['crud'] as $key => $crud) {
             $definition = new Definition(ResourceController::class);
             $definition
-                ->setPublic(true)
                 ->setArguments([
                     new Reference(GridBuilder::class),
                     new Reference(DataProvider::class),
@@ -48,7 +47,10 @@ class SherlockodeCrudExtension extends Extension
                     $crud['config']['class'],
                     $crud['config']['form'],
                 ])
-                ->addMethodCall('setContainer', [new Reference('service_container')])
+                ->addMethodCall('setRouter', [new Reference('router')])
+                ->addMethodCall('setCsrfTokenManager', [new Reference('security.csrf.token_manager')])
+                ->addMethodCall('setTwig', [new Reference('twig')])
+                ->addMethodCall('setFormFactory', [new Reference('form.factory')])
                 ->addTag('controller.service_arguments')
             ;
 

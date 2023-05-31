@@ -7,15 +7,16 @@ use Sherlockode\CrudBundle\Grid\GridBuilder;
 use Sherlockode\CrudBundle\Grid\GridView;
 use Sherlockode\CrudBundle\Provider\DataProvider;
 use Sherlockode\CrudBundle\Routing\Utils;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
-class ResourceController extends AbstractController
+class ResourceController
 {
+    use ControllerTrait;
+
     /**
      * @var GridBuilder
      */
