@@ -37,7 +37,7 @@ class ActionExtension extends AbstractExtension
      *
      * @return string
      */
-    public function generatePath(Request $request, string $action, array $parameters): string
+    public function generatePath(Request $request, string $action, array $parameters = []): string
     {
         return $this->router->generate(
             Utils::generatePathName($request->attributes->get('_route'), $action),
