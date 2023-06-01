@@ -93,7 +93,7 @@ class TwigRenderer
         ]);
 
         $form->add($filter->getName(), $this->formTypeRegistry->get($filter->getFilter()), ['label' => false]);
-        $form->submit($request->query->get('criteria', []));
+        $form->submit($request->query->all('criteria'));
 
         return $this->env->render($filter->getTemplate(), [
             'form' => $form->get($filter->getName())->createView(),
