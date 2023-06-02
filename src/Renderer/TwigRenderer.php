@@ -30,22 +30,15 @@ class TwigRenderer
     private $formFactory;
 
     /**
-     * @var FormTypeRegistry
-     */
-    private $formTypeRegistry;
-
-    /**
      * @param Environment               $twig
      * @param PropertyAccessorInterface $propertyAccessor
      * @param FormFactoryInterface      $formFactory
-     * @param FormTypeRegistry          $formTypeRegistry
      */
-    public function __construct(Environment $twig, PropertyAccessorInterface $propertyAccessor, FormFactoryInterface $formFactory, FormTypeRegistry $formTypeRegistry)
+    public function __construct(Environment $twig, PropertyAccessorInterface $propertyAccessor, FormFactoryInterface $formFactory)
     {
         $this->env = $twig;
         $this->propertyAccessor = $propertyAccessor;
         $this->formFactory = $formFactory;
-        $this->formTypeRegistry = $formTypeRegistry;
     }
 
     /**
@@ -92,7 +85,7 @@ class TwigRenderer
             'required' => false,
         ]);
 
-        $form->add($filter->getName(), $this->formTypeRegistry->get($filter->getFilter()), ['label' => false]);
+        $form->add($filter->getName(), $filter->getFilterType(), ['label' => false]);
         $form->submit($request->query->all('criteria'));
 
         return $this->env->render($filter->getTemplate(), [

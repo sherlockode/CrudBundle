@@ -14,6 +14,11 @@ interface FilterInterface
     public function supports(string $type): bool;
 
     /**
+     * @return string
+     */
+    public function getFormType(): string;
+
+    /**
      * @param QueryBuilder $query
      * @param string       $key
      * @param mixed        $data

@@ -160,20 +160,11 @@ sherlockode_crud:
 
 #### You need custom filter?
 If you need a filter that does not exist, create it !
-```yaml
-# service.yaml
 
-App\Grid\Filter\MyCustomFilter:
-    tags:
-        -
-            name: sherlockode_crud.filter
-            type: my_custom_filter
-            form_type: App\Form\Type\Filter\MyCustomFilterType
-```
-
+Create your own filter class and your own filter type class, in this example `MyCustomFilter`.
 `MyCustomFilter` need to implements `FilterInterface`
 
-Now you need to set the template and you can use it: 
+Now you need to set the template for your new filter:
 ```yaml
 # sherlockode_crud_routing.yaml
 

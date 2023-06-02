@@ -12,6 +12,7 @@
 
         <service id="Sherlockode\CrudBundle\Grid\GridBuilder">
             <argument type="service" id="Sherlockode\CrudBundle\Grid\GridConfiguration" />
+            <argument type="service" id="Sherlockode\CrudBundle\Filter\FilterRegistry" />
             <argument>%sherlockode_crud.grid.templates.action%</argument>
             <argument>%sherlockode_crud.grid.templates.field%</argument>
             <argument>%sherlockode_crud.grid.templates.filter%</argument>
@@ -21,7 +22,6 @@
             <argument type="service" id="twig"/>
             <argument type="service" id="property_accessor" />
             <argument type="service" id="form.factory" />
-            <argument type="service" id="Sherlockode\CrudBundle\Form\Type\FormTypeRegistry" />
         </service>
 
         <service id="Sherlockode\CrudBundle\Provider\Filtering">
