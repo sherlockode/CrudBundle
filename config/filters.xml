@@ -34,5 +34,21 @@
         <service id="Sherlockode\CrudBundle\Filter\DateRangeFilter">
             <tag name="sherlockode_crud.filter" type="date_range" />
         </service>
+
+        <service id="Sherlockode\CrudBundle\Form\Type\Filter\FloatFilterType">
+            <tag name="form.type" />
+        </service>
+
+        <service id="Sherlockode\CrudBundle\Filter\FloatFilter">
+            <tag name="sherlockode_crud.filter" type="float" />
+        </service>
+
+        <service id="Sherlockode\CrudBundle\Form\Type\Filter\MoneyFilterType">
+            <tag name="form.type" />
+        </service>
+
+        <service id="Sherlockode\CrudBundle\Filter\MoneyFilter">
+            <tag name="sherlockode_crud.filter" type="money" />
+        </service>
     </services>
 </container>

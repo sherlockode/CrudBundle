@@ -1,0 +1,4 @@
+{% trans_default_domain 'SherlockodeCrud' %}
+
+{{ form_row(form.lessThanOrEqual, {'label': filter.label|trans ~ ' | ' ~ form.lessThanOrEqual.vars.label|trans}) }}
+{{ form_row(form.greaterThanOrEqual, {'label': filter.label|trans ~ ' | ' ~ form.greaterThanOrEqual.vars.label|trans}) }}
