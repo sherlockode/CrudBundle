@@ -65,6 +65,8 @@ class Grid
         $fields = $this->config['grid']['fields'] ?? [];
         $actions = $this->config['grid']['actions'] ?? [];
 
+        $className = strtolower((new \ReflectionClass($this->config['config']['class']))->getShortName());
+
         foreach ($filters as $key => $data) {
             $filter = new Filter();
             $filter->setName($key);
@@ -78,7 +80,7 @@ class Grid
         foreach ($fields as $key => $data) {
             $field = new Field();
             $field->setKey($key);
-            $field->setLabel($data['label'] ?? $this->camelCaseToSnakeCase($key));
+            $field->setLabel($data['label'] ?? 'sherlockode_crud.' . $className . '.' . $this->camelCaseToSnakeCase($key));
             $field->setOptions($data['options'] ?? []);
             $field->setSortable(array_key_exists('sortable', $data));
 
