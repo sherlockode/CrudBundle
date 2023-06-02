@@ -100,6 +100,14 @@ class SherlockodeCrudExtension extends Extension
             $config['templates']['filter']['date_range'] = '@SherlockodeCrud/common/grid/filter/date_range.html.twig';
         }
 
+        if (!isset($config['templates']['filter']['float'])) {
+            $config['templates']['filter']['float'] = '@SherlockodeCrud/common/grid/filter/float.html.twig';
+        }
+
+        if (!isset($config['templates']['filter']['money'])) {
+            $config['templates']['filter']['money'] = '@SherlockodeCrud/common/grid/filter/money.html.twig';
+        }
+
         return $config;
     }
 

@@ -19,3 +19,5 @@ sherlockode_crud:
             all: All
         from: From
         to: To
+        less_than_or_equal: Less than or equal
+        greater_than_or_equal: Greater than or equal

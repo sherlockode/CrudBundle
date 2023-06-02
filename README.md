@@ -139,6 +139,8 @@ sherlockode_crud:
 The bundle has basic filters
 - String
 - Boolean
+- Float
+- Money
 - Date
 - DateRange
 
