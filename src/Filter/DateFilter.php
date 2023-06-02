@@ -3,6 +3,7 @@
 namespace Sherlockode\CrudBundle\Filter;
 
 use Doctrine\ORM\QueryBuilder;
+use Sherlockode\CrudBundle\Form\Type\Filter\DateFilterType;
 use Sherlockode\CrudBundle\Provider\ExpressionBuilder;
 
 class DateFilter implements FilterInterface
@@ -15,6 +16,14 @@ class DateFilter implements FilterInterface
     public function supports(string $type): bool
     {
         return 'date' === $type;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFormType(): string
+    {
+        return DateFilterType::class;
     }
 
     /**

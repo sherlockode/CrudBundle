@@ -4,6 +4,7 @@ namespace Sherlockode\CrudBundle\Filter;
 
 use Doctrine\ORM\Query\Expr\Comparison;
 use Doctrine\ORM\QueryBuilder;
+use Sherlockode\CrudBundle\Form\Type\Filter\StringFilterType;
 use Sherlockode\CrudBundle\Provider\ExpressionBuilder;
 
 class StringFilter implements FilterInterface
@@ -22,6 +23,14 @@ class StringFilter implements FilterInterface
     public function supports(string $type): bool
     {
         return 'string' === $type;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFormType(): string
+    {
+        return StringFilterType::class;
     }
 
     /**

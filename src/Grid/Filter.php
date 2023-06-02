@@ -17,7 +17,12 @@ class Filter
     /**
      * @var string
      */
-    private $filter;
+    private $type;
+
+    /**
+     * @var string
+     */
+    private $filterType;
 
     /**
      * @var string
@@ -67,19 +72,39 @@ class Filter
     /**
      * @return string
      */
-    public function getFilter(): string
+    public function getType(): string
     {
-        return $this->filter;
+        return $this->type;
     }
 
     /**
-     * @param string $filter
+     * @param string $type
      *
      * @return $this
      */
-    public function setFilter(string $filter): self
+    public function setType(string $type): self
     {
-        $this->filter = $filter;
+        $this->type = $type;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFilterType(): string
+    {
+        return $this->filterType;
+    }
+
+    /**
+     * @param string $filterType
+     *
+     * @return $this
+     */
+    public function setFilterType(string $filterType): self
+    {
+        $this->filterType = $filterType;
 
         return $this;
     }

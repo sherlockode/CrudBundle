@@ -40,9 +40,9 @@ class Filtering
                 continue;
             }
 
-            $filter = $this->filterRegistry->get($gridFilter->getFilter());
+            $filter = $this->filterRegistry->get($gridFilter->getType());
             if (null === $filter) {
-                throw new \Exception(sprintf('Fitler type %s does not exist', $gridFilter->getFilter()));
+                throw new \Exception(sprintf('Fitler type %s does not exist', $gridFilter->getFilterType()));
             }
 
             $filter->apply($builder, $key, $data);

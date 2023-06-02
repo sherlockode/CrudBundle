@@ -3,6 +3,7 @@
 namespace Sherlockode\CrudBundle\Filter;
 
 use Doctrine\ORM\QueryBuilder;
+use Sherlockode\CrudBundle\Form\Type\Filter\BooleanFilterType;
 use Sherlockode\CrudBundle\Provider\ExpressionBuilder;
 
 class BooleanFilter implements FilterInterface
@@ -19,6 +20,14 @@ class BooleanFilter implements FilterInterface
     public function supports(string $type): bool
     {
         return 'boolean' === $type;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFormType(): string
+    {
+        return BooleanFilterType::class;
     }
 
     /**

@@ -2,6 +2,8 @@
 
 namespace Sherlockode\CrudBundle\Grid;
 
+use Sherlockode\CrudBundle\Filter\FilterRegistry;
+
 class Grid
 {
     /**
@@ -52,7 +54,7 @@ class Grid
     /**
      * @param array $config
      */
-    public function __construct(array $config = [], array $actionTemplates = [], array $fieldTemplates = [], array $filterTemplates = [])
+    public function __construct(FilterRegistry $filterRegistry, array $config = [], array $actionTemplates = [], array $fieldTemplates = [], array $filterTemplates = [])
     {
         $this->config = $config;
         $this->actionTemplates = $actionTemplates;
@@ -69,7 +71,8 @@ class Grid
             $filter = new Filter();
             $filter->setName($key);
             $filter->setLabel($data['label'] ?? 'sherlockode_crud.filter.' . $this->camelCaseToSnakeCase($key));
-            $filter->setFilter($data['type'] ?? 'string');
+            $filter->setType($data['type']);
+            $filter->setFilterType($filterRegistry->get($data['type'])->getFormType());
             $filter->setTemplate($this->filterTemplates[$data['type']]);
 
             $this->filters[$key] = $filter;

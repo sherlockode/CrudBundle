@@ -3,6 +3,7 @@
 namespace Sherlockode\CrudBundle\Filter;
 
 use Doctrine\ORM\QueryBuilder;
+use Sherlockode\CrudBundle\Form\Type\Filter\DateRangeFilterType;
 use Sherlockode\CrudBundle\Provider\ExpressionBuilder;
 
 class DateRangeFilter implements FilterInterface
@@ -15,6 +16,14 @@ class DateRangeFilter implements FilterInterface
     public function supports(string $type): bool
     {
         return 'date_range' === $type;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFormType(): string
+    {
+        return DateRangeFilterType::class;
     }
 
     /**
