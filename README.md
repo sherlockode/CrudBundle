@@ -143,6 +143,25 @@ The bundle has basic filters
 - Money
 - Date
 - DateRange
+- Entity
+
+Entity filter need more configuration:
+
+```yaml
+# config/packages/sherlockode_crud.yaml
+
+sherlockode_crud:
+    crud:
+        user:
+            # ...
+            grid:
+                filters:
+                    category:
+                        type: entity
+                        options:
+                            class: App\Entity\Category
+                            choice_label: name
+```
 
 To add some filters: 
 ```yaml

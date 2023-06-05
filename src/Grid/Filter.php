@@ -30,6 +30,11 @@ class Filter
     private $template;
 
     /**
+     * @var array
+     */
+    private $options;
+
+    /**
      * @return string
      */
     public function getName(): string
@@ -125,6 +130,26 @@ class Filter
     public function setTemplate(string $template): self
     {
         $this->template = $template;
+
+        return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getOptions(): array
+    {
+        return $this->options;
+    }
+
+    /**
+     * @param array $options
+     *
+     * @return $this
+     */
+    public function setOptions(array $options): self
+    {
+        $this->options = $options;
 
         return $this;
     }
