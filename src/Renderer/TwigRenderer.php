@@ -49,6 +49,10 @@ class TwigRenderer
      */
     public function renderField(Field $field, $data)
     {
+        if ('.' === $field->getPath()) {
+            return $data;
+        }
+
         try {
             return $this->propertyAccessor->getValue($data, $field->getPath());
         } catch (\Exception $exception) {
