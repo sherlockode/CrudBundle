@@ -37,7 +37,7 @@ class ResourceLoader implements LoaderInterface
         $configuration = Yaml::parse($resource);
         $configuration = $processor->processConfiguration($configurationDefinition, ['routing' => $configuration]);
 
-        $routesToGenerate = ['index', 'create', 'update', 'show', 'delete'];
+        $routesToGenerate = ['index', 'create', 'update', 'show', 'delete', 'delete_confirmation'];
 
         if (!empty($configuration['only'])) {
             $routesToGenerate = $configuration['only'];
@@ -65,6 +65,10 @@ class ResourceLoader implements LoaderInterface
 
         if (in_array('delete', $routesToGenerate, true)) {
             $this->routeCollection->add($this->getRouteName($configuration, 'delete'), $this->createRoute($configuration, 'delete'));
+        }
+
+        if (in_array('delete_confirmation', $routesToGenerate, true)) {
+            $this->routeCollection->add($this->getRouteName($configuration, 'deleteconfirmation'), $this->createRoute($configuration, 'deleteConfirmation'));
         }
 
         return $this->routeCollection;
@@ -125,7 +129,9 @@ class ResourceLoader implements LoaderInterface
             case 'delete':
                 $path = sprintf('%s/{id}/%s', $configuration['resource_name'], 'delete');
                 break;
-
+            case 'deleteConfirmation':
+                $path = sprintf('%s/{id}/%s', $configuration['resource_name'], 'delete_confirmation');
+                break;
         }
 
         $serviceId = sprintf('%s.%s.%s', $configuration['base_name'], 'controller', $configuration['resource_name']);
