@@ -2,6 +2,7 @@
 
 namespace Sherlockode\CrudBundle\Renderer;
 
+use Sherlockode\CrudBundle\Field\FieldInterface;
 use Sherlockode\CrudBundle\Form\Type\FormTypeRegistry;
 use Sherlockode\CrudBundle\Grid\Field;
 use Sherlockode\CrudBundle\Grid\Filter;
@@ -42,12 +43,12 @@ class TwigRenderer
     }
 
     /**
-     * @param Field $field
-     * @param       $data
+     * @param FieldInterface $field
+     * @param                $data
      *
      * @return mixed
      */
-    public function renderField(Field $field, $data)
+    public function renderField(FieldInterface $field, $data)
     {
         try {
             return $this->propertyAccessor->getValue($data, $field->getPath());

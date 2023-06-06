@@ -350,3 +350,24 @@ sherlockode_crud:
             config:
                 delete_confirmation: false
 ```
+
+You need to add some information in the show view?
+
+```yaml
+# config/packages/sherlockode_crud.yaml
+
+sherlockode_crud:
+    crud:
+        user:
+            show:
+                name:
+                    type: string
+                is_active:
+                    type: boolean
+                category.name:
+                    type: string
+                created_at:
+                    type: date
+                    options:
+                        format: d-m-Y
+```

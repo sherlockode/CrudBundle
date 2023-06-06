@@ -5,6 +5,7 @@ namespace Sherlockode\CrudBundle\DependencyInjection;
 use Sherlockode\CrudBundle\Controller\ResourceController;
 use Sherlockode\CrudBundle\Grid\GridBuilder;
 use Sherlockode\CrudBundle\Provider\DataProvider;
+use Sherlockode\CrudBundle\View\ViewBuilder;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
@@ -41,6 +42,7 @@ class SherlockodeCrudExtension extends Extension
             $definition
                 ->setArguments([
                     new Reference(GridBuilder::class),
+                    new Reference(ViewBuilder::class),
                     new Reference(DataProvider::class),
                     new Reference('doctrine.orm.entity_manager'),
                     $key,
@@ -68,6 +70,10 @@ class SherlockodeCrudExtension extends Extension
      */
     private function defaultTemplate(array $config): array
     {
+        if (!isset($config['templates']['action']['show'])) {
+            $config['templates']['action']['show'] = '@SherlockodeCrud/common/grid/action/show.html.twig';
+        }
+
         if (!isset($config['templates']['action']['update'])) {
             $config['templates']['action']['update'] = '@SherlockodeCrud/common/grid/action/update.html.twig';
         }
@@ -77,11 +83,11 @@ class SherlockodeCrudExtension extends Extension
         }
 
         if (!isset($config['templates']['field']['date'])) {
-            $config['templates']['field']['date'] = '@SherlockodeCrud/common/grid/field/date.html.twig';
+            $config['templates']['field']['date'] = '@SherlockodeCrud/common/field/date.html.twig';
         }
 
         if (!isset($config['templates']['field']['boolean'])) {
-            $config['templates']['field']['boolean'] = '@SherlockodeCrud/common/grid/field/boolean.html.twig';
+            $config['templates']['field']['boolean'] = '@SherlockodeCrud/common/field/boolean.html.twig';
         }
 
         if (!isset($config['templates']['filter']['string'])) {

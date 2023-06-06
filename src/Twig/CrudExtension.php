@@ -2,6 +2,7 @@
 
 namespace Sherlockode\CrudBundle\Twig;
 
+use Sherlockode\CrudBundle\Field\FieldInterface;
 use Sherlockode\CrudBundle\Grid\Field;
 use Sherlockode\CrudBundle\Grid\Filter;
 use Sherlockode\CrudBundle\Grid\GridView;
@@ -11,7 +12,7 @@ use Twig\Environment;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
-class GridExtension extends AbstractExtension
+class CrudExtension extends AbstractExtension
 {
     /**
      * @var Environment
@@ -59,8 +60,8 @@ class GridExtension extends AbstractExtension
     }
 
     /**
-     * @param Field $field
-     * @param       $data
+     * @param FieldInterface $field
+     * @param                $data
      *
      * @return string
      *
@@ -68,7 +69,7 @@ class GridExtension extends AbstractExtension
      * @throws \Twig\Error\RuntimeError
      * @throws \Twig\Error\SyntaxError
      */
-    public function renderField(Field $field, $data): string
+    public function renderField(FieldInterface $field, $data): string
     {
         if ($field->getTemplate() !== null) {
             return $this->env->render($field->getTemplate(), [

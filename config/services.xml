@@ -18,6 +18,15 @@
             <argument>%sherlockode_crud.grid.templates.filter%</argument>
         </service>
 
+        <service id="Sherlockode\CrudBundle\View\ViewConfiguration">
+            <argument>%sherlockode_crud.grids_definitions%</argument>
+        </service>
+
+        <service id="Sherlockode\CrudBundle\View\ViewBuilder">
+            <argument type="service" id="Sherlockode\CrudBundle\View\ViewConfiguration" />
+            <argument>%sherlockode_crud.grid.templates.field%</argument>
+        </service>
+
         <service id="Sherlockode\CrudBundle\Renderer\TwigRenderer">
             <argument type="service" id="twig"/>
             <argument type="service" id="property_accessor" />
