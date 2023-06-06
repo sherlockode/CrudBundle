@@ -6,7 +6,7 @@
     ],
     "license": "MIT",
     "require": {
-        "php": "^7.3 || ^8.0",
+        "php": "^7.4 || ^8.0",
         "knplabs/knp-paginator-bundle": "5.9.0",
         "symfony/form": "^5.0 || ^6.0",
         "symfony/framework-bundle": "^5.0 || ^6.0",
