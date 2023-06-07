@@ -1,6 +1,6 @@
 <?php
 
-namespace Sherlockode\CrudBundle\Grid;
+namespace Sherlockode\CrudBundle\View;
 
 use Sherlockode\CrudBundle\Field\FieldInterface;
 
@@ -30,11 +30,6 @@ class Field implements FieldInterface
      * @var array
      */
     private $options;
-
-    /**
-     * @var bool
-     */
-    private $sortable = false;
 
     /**
      * @return string
@@ -89,7 +84,7 @@ class Field implements FieldInterface
      *
      * @return $this
      */
-    public function setPath(?string $path): self
+    public function setPath(string $path): self
     {
         $this->path = $path;
 
@@ -132,26 +127,6 @@ class Field implements FieldInterface
     public function setOptions(array $options): self
     {
         $this->options = $options;
-
-        return $this;
-    }
-
-    /**
-     * @return bool
-     */
-    public function isSortable(): bool
-    {
-        return $this->sortable;
-    }
-
-    /**
-     * @param bool $sortable
-     *
-     * @return $this
-     */
-    public function setSortable(bool $sortable): self
-    {
-        $this->sortable = $sortable;
 
         return $this;
     }

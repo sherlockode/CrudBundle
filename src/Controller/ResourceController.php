@@ -7,6 +7,7 @@ use Sherlockode\CrudBundle\Grid\GridBuilder;
 use Sherlockode\CrudBundle\Grid\GridView;
 use Sherlockode\CrudBundle\Provider\DataProvider;
 use Sherlockode\CrudBundle\Routing\Utils;
+use Sherlockode\CrudBundle\View\ViewBuilder;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -20,7 +21,12 @@ class ResourceController
     /**
      * @var GridBuilder
      */
-    private $builder;
+    private $gridBuilder;
+
+    /**
+     * @var ViewBuilder
+     */
+    private $viewBuilder;
 
     /**
      * @var DataProvider
@@ -48,16 +54,18 @@ class ResourceController
     private $form;
 
     /**
-     * @param GridBuilder            $builder
+     * @param GridBuilder            $gridBuilder
+     * @param ViewBuilder            $viewBuilder
      * @param DataProvider           $dataProvider
      * @param EntityManagerInterface $em
      * @param string                 $gridName
      * @param string                 $class
      * @param string                 $form
      */
-    public function __construct(GridBuilder $builder, DataProvider $dataProvider, EntityManagerInterface $em, string $gridName, string $class, string $form)
+    public function __construct(GridBuilder $gridBuilder, ViewBuilder $viewBuilder, DataProvider $dataProvider, EntityManagerInterface $em, string $gridName, string $class, string $form)
     {
-        $this->builder = $builder;
+        $this->gridBuilder = $gridBuilder;
+        $this->viewBuilder = $viewBuilder;
         $this->dataProvider = $dataProvider;
         $this->gridName = $gridName;
         $this->em = $em;
@@ -72,7 +80,7 @@ class ResourceController
     {
         $this->grantedOrForbidden($request, 'index');
 
-        $grid = $this->builder->build($this->gridName);
+        $grid = $this->gridBuilder->build($this->gridName);
         $data = $this->dataProvider->getData($grid, $request);
 
         $gridView = new GridView($data, $grid);
@@ -93,12 +101,11 @@ class ResourceController
         $resource = $this->findEntityOr404($request);
         $this->grantedOrForbidden($request, 'show', $resource);
 
-        if (null === $this->getTemplate($request)) {
-            throw new \RuntimeException(sprintf('Could not find template for resource "%s" and the Show action. You have to set it manually', $resource::class));
-        }
+        $view = $this->viewBuilder->build($this->gridName);
 
-        return $this->render($this->getTemplate($request), [
+        return $this->render($this->getTemplate($request) ?? '@SherlockodeCrud/crud/show.html.twig', [
             'resource' => $resource,
+            'showView' => $view,
             'vars' => $request->attributes->get('_crud')['vars'] ?? []
         ]);
     }

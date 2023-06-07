@@ -1,4 +1,5 @@
 sherlockode_crud:
+    show: Afficher
     update: Editer
     delete: Supprimer
     save: Sauvegarder
