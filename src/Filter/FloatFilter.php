@@ -45,11 +45,11 @@ class FloatFilter implements FilterInterface
         $expressionBuilder = new ExpressionBuilder($query);
 
         if ('' !== $lessThanOrEqual) {
-            $query->andWhere($expressionBuilder->lessThanOrEqual($field, $lessThanOrEqual));
+            $query->andWhere($expressionBuilder->lessThanOrEqual($field, (float) $lessThanOrEqual));
         }
 
         if ('' !== $greaterThanOrEqual) {
-            $query->andWhere($expressionBuilder->greaterThanOrEqual($field, $greaterThanOrEqual));
+            $query->andWhere($expressionBuilder->greaterThanOrEqual($field, (float) $greaterThanOrEqual));
         }
     }
 }

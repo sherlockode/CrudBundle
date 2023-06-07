@@ -45,11 +45,11 @@ class MoneyFilter implements FilterInterface
         $expressionBuilder = new ExpressionBuilder($query);
 
         if ('' !== $lessThanOrEqual) {
-            $query->andWhere($expressionBuilder->lessThanOrEqual($field, (int) round($lessThanOrEqual * 100)));
+            $query->andWhere($expressionBuilder->lessThanOrEqual($field, (int) round((float) $lessThanOrEqual * 100)));
         }
 
         if ('' !== $greaterThanOrEqual) {
-            $query->andWhere($expressionBuilder->greaterThanOrEqual($field, (int) round($greaterThanOrEqual * 100)));
+            $query->andWhere($expressionBuilder->greaterThanOrEqual($field, (int) round((float) $greaterThanOrEqual * 100)));
         }
     }
 }
