@@ -107,7 +107,7 @@ sherlockode_crud:
 
 #### You need to add filters on your grid?
 ```yaml
-# sherlockode_crud_routing.yaml
+# config/packages/sherlockode_crud.yaml
 
 sherlockode_crud:
     crud:
@@ -121,7 +121,7 @@ sherlockode_crud:
 
 #### You need to create a custom query for the grid?
 ```yaml
-# sherlockode_crud_routing.yaml
+# config/packages/sherlockode_crud.yaml
 
 sherlockode_crud:
     crud:
@@ -146,7 +146,7 @@ The bundle has basic filters
 
 To add some filters: 
 ```yaml
-# sherlockode_crud_routing.yaml
+# config/packages/sherlockode_crud.yaml
 
 sherlockode_crud:
     crud:
@@ -168,7 +168,7 @@ Create your own filter class and your own filter type class, in this example `My
 
 Now you need to set the template for your new filter:
 ```yaml
-# sherlockode_crud_routing.yaml
+# config/packages/sherlockode_crud.yaml
 
 sherlockode_crud:
     templates:
@@ -185,7 +185,7 @@ sherlockode_crud:
 
 #### You need to sort your grid?
 ```yaml
-# sherlockode_crud_routing.yaml
+# config/packages/sherlockode_crud.yaml
 
 sherlockode_crud:
     crud:
@@ -200,7 +200,7 @@ sherlockode_crud:
 
 #### You need to let the user choose the order?
 ```yaml
-# sherlockode_crud_routing.yaml
+# config/packages/sherlockode_crud.yaml
 
 sherlockode_crud:
     crud:
