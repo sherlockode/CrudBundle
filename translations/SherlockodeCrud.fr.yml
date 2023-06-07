@@ -7,6 +7,7 @@ sherlockode_crud:
         yes: Oui
         no: Non
     filter:
+        all: Tous
         perform: Filtrer
         reset: Réinitialiser les filtres
         value: Valeur

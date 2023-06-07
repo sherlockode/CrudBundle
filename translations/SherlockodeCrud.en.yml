@@ -7,6 +7,7 @@ sherlockode_crud:
         yes: Yes
         no: No
     filter:
+        all: All
         perform: Search
         reset: Reset filters
         value: Value

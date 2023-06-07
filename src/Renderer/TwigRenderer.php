@@ -49,7 +49,11 @@ class TwigRenderer
      */
     public function renderField(Field $field, $data)
     {
-        return $this->propertyAccessor->getValue($data, $field->getPath());
+        try {
+            return $this->propertyAccessor->getValue($data, $field->getPath());
+        } catch (\Exception $exception) {
+            return '';
+        }
     }
 
     /**
@@ -85,7 +89,7 @@ class TwigRenderer
             'required' => false,
         ]);
 
-        $form->add($filter->getName(), $filter->getFilterType(), ['label' => false]);
+        $form->add($filter->getName(), $filter->getFilterType(), array_merge(['label' => false], $filter->getOptions()));
         $form->submit($request->query->all('criteria'));
 
         return $this->env->render($filter->getTemplate(), [

@@ -50,5 +50,13 @@
         <service id="Sherlockode\CrudBundle\Filter\MoneyFilter">
             <tag name="sherlockode_crud.filter" type="money" />
         </service>
+
+        <service id="Sherlockode\CrudBundle\Form\Type\Filter\EntityFilterType">
+            <tag name="form.type" />
+        </service>
+
+        <service id="Sherlockode\CrudBundle\Filter\EntityFilter">
+            <tag name="sherlockode_crud.filter" type="entity" />
+        </service>
     </services>
 </container>

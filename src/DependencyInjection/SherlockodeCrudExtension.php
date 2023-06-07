@@ -108,6 +108,10 @@ class SherlockodeCrudExtension extends Extension
             $config['templates']['filter']['money'] = '@SherlockodeCrud/common/grid/filter/money.html.twig';
         }
 
+        if (!isset($config['templates']['filter']['entity'])) {
+            $config['templates']['filter']['entity'] = '@SherlockodeCrud/common/grid/filter/entity.html.twig';
+        }
+
         return $config;
     }
 

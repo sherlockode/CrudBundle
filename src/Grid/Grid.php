@@ -76,6 +76,7 @@ class Grid
             $filter->setType($data['type']);
             $filter->setFilterType($filterRegistry->get($data['type'])->getFormType());
             $filter->setTemplate($this->filterTemplates[$data['type']]);
+            $filter->setOptions(array_merge($data['options'], ['label' => 'sherlockode_crud.filter.'.$key]));
 
             $this->filters[$key] = $filter;
         }
@@ -86,6 +87,7 @@ class Grid
             $field->setLabel($data['label'] ?? 'sherlockode_crud.' . $className . '.' . $this->camelCaseToSnakeCase($key));
             $field->setOptions($data['options'] ?? []);
             $field->setSortable(array_key_exists('sortable', $data));
+            $field->setPath($data['path'] ?? null);
 
             if (isset($data['type']) && isset($this->fieldTemplates[$data['type']])) {
                 $field->setTemplate($this->fieldTemplates[$data['type']]);
