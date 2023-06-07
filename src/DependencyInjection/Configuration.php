@@ -68,6 +68,7 @@ class Configuration implements ConfigurationInterface
                             ->children()
                                 ->scalarNode('class')->cannotBeEmpty()->end()
                                 ->scalarNode('form')->cannotBeEmpty()->end()
+                                ->scalarNode('delete_confirmation')->defaultTrue()->end()
                             ->end()
                         ->end()
                         ->arrayNode('grid')

@@ -52,6 +52,11 @@ class Grid
     private $filterTemplates;
 
     /**
+     * @var bool
+     */
+    private $deleteConfirmation = true;
+
+    /**
      * @param array $config
      */
     public function __construct(FilterRegistry $filterRegistry, array $config = [], array $actionTemplates = [], array $fieldTemplates = [], array $filterTemplates = [])
@@ -62,6 +67,7 @@ class Grid
         $this->filterTemplates = $filterTemplates;
         $this->pageSize = $this->config['grid']['settings']['page_size'] ?? 20;
         $this->sorting = $this->config['grid']['sorting'] ?? [];
+        $this->deleteConfirmation = $this->config['config']['delete_confirmation'] ?? true;
 
         $filters = $this->config['grid']['filters'] ?? [];
         $fields = $this->config['grid']['fields'] ?? [];
@@ -171,6 +177,26 @@ class Grid
     public function getFilter(string $name): ?Filter
     {
         return $this->filters[$name] ?? null;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasDeleteConfirmation(): bool
+    {
+        return $this->deleteConfirmation;
+    }
+
+    /**
+     * @param bool $deleteConfirmation
+     *
+     * @return $this
+     */
+    public function setHasDeleteConfirmation(bool $deleteConfirmation): self
+    {
+        $this->deleteConfirmation = $deleteConfirmation;
+
+        return $this;
     }
 
     /**

@@ -172,10 +172,43 @@ class ResourceController
             throw new HttpException(Response::HTTP_FORBIDDEN, 'Invalid csrf token.');
         }
 
+        $grid = $this->builder->build($this->gridName);
+        if ($grid->hasDeleteConfirmation()) {
+            return $this->redirectToRoute(
+                Utils::generatePathName($request->attributes->get('_route'), 'deleteconfirmation'),
+                ['id' => $resource->getId()]
+            );
+        }
+
         $this->em->remove($resource);
         $this->em->flush();
 
         return $this->generateRedirectionToIndex($request);
+    }
+
+    /**
+     * @param Request $request
+     *
+     * @return Response
+     */
+    public function deleteConfirmationAction(Request $request): Response
+    {
+        $resource = $this->findEntityOr404($request);
+        $this->grantedOrForbidden($request, 'delete', $resource);
+
+        $submittedToken = $request->request->get('_csrf_token');
+        $isValidToken = $this->isCsrfTokenValid($resource->getId(), $submittedToken);
+
+        if ($isValidToken) {
+            $this->em->remove($resource);
+            $this->em->flush();
+
+            return $this->generateRedirectionToIndex($request);
+        }
+
+        return $this->render('@SherlockodeCrud/crud/delete_confirmation.html.twig', [
+            'resource' => $resource,
+        ]);
     }
 
     /**

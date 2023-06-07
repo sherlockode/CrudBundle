@@ -339,3 +339,14 @@ app_admin_user:
             index:
                 icon: bi bi-person-fill
 ```
+
+#### You need to remove the delete confirmation page?
+```yaml
+# config/packages/sherlockode_crud.yaml
+
+sherlockode_crud:
+    crud:
+        user:
+            config:
+                delete_confirmation: false
+```
