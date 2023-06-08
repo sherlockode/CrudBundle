@@ -280,11 +280,7 @@ class ResourceController
 
             $crudParameters = $request->attributes->get('_crud');
 
-            if (!$this->container->has('twig')) {
-                throw new \LogicException('Twig is required. Try running "composer require symfony/twig-bundle".');
-            }
-
-            return $this->container->get('twig')->getLoader()->exists($crudParameters['template'])
+            return $this->twig->getLoader()->exists($crudParameters['template'])
                 ? $crudParameters['template']
                 : null;
         }
