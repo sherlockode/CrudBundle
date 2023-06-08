@@ -179,7 +179,7 @@ class ResourceController
             throw new HttpException(Response::HTTP_FORBIDDEN, 'Invalid csrf token.');
         }
 
-        $grid = $this->builder->build($this->gridName);
+        $grid = $this->gridBuilder->build($this->gridName);
         if ($grid->hasDeleteConfirmation()) {
             return $this->redirectToRoute(
                 Utils::generatePathName($request->attributes->get('_route'), 'deleteconfirmation'),
