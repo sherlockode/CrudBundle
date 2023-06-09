@@ -13,16 +13,6 @@ use Symfony\Component\Yaml\Yaml;
 
 class ResourceLoader implements LoaderInterface
 {
-    private $routeCollection;
-
-    /**
-     * @param ContainerBuilder $containerBuilder
-     */
-    public function __construct()
-    {
-        $this->routeCollection = new RouteCollection();
-    }
-
     /**
      * @param $resource
      * @param $type
@@ -39,6 +29,8 @@ class ResourceLoader implements LoaderInterface
 
         $routesToGenerate = ['index', 'create', 'update', 'show', 'delete', 'delete_confirmation'];
 
+        $routeCollection = new RouteCollection();
+
         if (!empty($configuration['only'])) {
             $routesToGenerate = $configuration['only'];
         }
@@ -48,30 +40,30 @@ class ResourceLoader implements LoaderInterface
         }
 
         if (in_array('index', $routesToGenerate, true)) {
-            $this->routeCollection->add($this->getRouteName($configuration, 'index'), $this->createRoute($configuration, 'index'));
+            $routeCollection->add($this->getRouteName($configuration, 'index'), $this->createRoute($configuration, 'index'));
         }
 
         if (in_array('create', $routesToGenerate, true)) {
-            $this->routeCollection->add($this->getRouteName($configuration, 'create'), $this->createRoute($configuration, 'create'));
+            $routeCollection->add($this->getRouteName($configuration, 'create'), $this->createRoute($configuration, 'create'));
         }
 
         if (in_array('update', $routesToGenerate, true)) {
-            $this->routeCollection->add($this->getRouteName($configuration, 'update'), $this->createRoute($configuration, 'update'));
+            $routeCollection->add($this->getRouteName($configuration, 'update'), $this->createRoute($configuration, 'update'));
         }
 
         if (in_array('show', $routesToGenerate, true)) {
-            $this->routeCollection->add($this->getRouteName($configuration, 'show'), $this->createRoute($configuration, 'show'));
+            $routeCollection->add($this->getRouteName($configuration, 'show'), $this->createRoute($configuration, 'show'));
         }
 
         if (in_array('delete', $routesToGenerate, true)) {
-            $this->routeCollection->add($this->getRouteName($configuration, 'delete'), $this->createRoute($configuration, 'delete'));
+            $routeCollection->add($this->getRouteName($configuration, 'delete'), $this->createRoute($configuration, 'delete'));
         }
 
         if (in_array('delete_confirmation', $routesToGenerate, true)) {
-            $this->routeCollection->add($this->getRouteName($configuration, 'deleteconfirmation'), $this->createRoute($configuration, 'deleteConfirmation'));
+            $routeCollection->add($this->getRouteName($configuration, 'deleteconfirmation'), $this->createRoute($configuration, 'deleteConfirmation'));
         }
 
-        return $this->routeCollection;
+        return $routeCollection;
     }
 
     /**
