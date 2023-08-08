@@ -105,24 +105,25 @@ class ResourceLoader implements LoaderInterface
     {
         $path = '';
 
+        $resourceNameFixed = str_replace('_', '-', $configuration['resource_name']);
         switch ($actionName) {
             case 'index':
-                $path = $configuration['resource_name'];
+                $path = $resourceNameFixed;
                 break;
             case 'show':
-                $path = sprintf('%s/{id}', $configuration['resource_name']);
+                $path = sprintf('%s/{id}', $resourceNameFixed);
                 break;
             case 'create':
-                $path = sprintf('%s/%s', $configuration['resource_name'], 'new');
+                $path = sprintf('%s/%s', $resourceNameFixed, 'new');
                 break;
             case 'update':
-                $path = sprintf('%s/{id}/%s', $configuration['resource_name'], 'edit');
+                $path = sprintf('%s/{id}/%s', $resourceNameFixed, 'edit');
                 break;
             case 'delete':
-                $path = sprintf('%s/{id}/%s', $configuration['resource_name'], 'delete');
+                $path = sprintf('%s/{id}/%s', $resourceNameFixed, 'delete');
                 break;
             case 'deleteConfirmation':
-                $path = sprintf('%s/{id}/%s', $configuration['resource_name'], 'delete_confirmation');
+                $path = sprintf('%s/{id}/%s', $resourceNameFixed, 'delete_confirmation');
                 break;
         }
 
