@@ -30,6 +30,9 @@ class Configuration implements ConfigurationInterface
     {
         $node
             ->children()
+                ->variableNode('translation_domain')
+                    ->defaultValue('SherlockodeCrud')
+                ->end()
                 ->arrayNode('templates')
                     ->addDefaultsIfNotSet()
                     ->children()
