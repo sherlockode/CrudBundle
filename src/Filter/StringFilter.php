@@ -55,8 +55,10 @@ class StringFilter implements FilterInterface
      * @param array        $data
      *
      * @return Comparison
+     *
+     * @throws \Exception
      */
-    private function getExpression(QueryBuilder $query, string $field, array $data)
+    private function getExpression(QueryBuilder $query, string $field, array $data): Comparison
     {
         $expressionBuilder = new ExpressionBuilder($query);
 
@@ -68,5 +70,7 @@ class StringFilter implements FilterInterface
             case self::TYPE_NOT_CONTAINS:
                 return $expressionBuilder->notLike($field, '%' . $data['value'] . '%');
         }
+
+        throw new \Exception(sprintf('Expression type %s does not exist', $data['type']));
     }
 }

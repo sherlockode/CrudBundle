@@ -136,11 +136,11 @@ class ResourceLoader implements LoaderInterface
             $defaults['_crud']['template'] = sprintf('%s/%s.html.twig', $configuration['templates'], $actionName);
         }
 
-        if (isset($configuration['redirect_after_create']) && in_array($actionName, ['create'], true)) {
+        if (isset($configuration['redirect_after_create']) && 'create' === $actionName) {
             $defaults['_crud']['redirect'] = $this->getRouteName($configuration, $configuration['redirect_after_create']);
         }
 
-        if (isset($configuration['redirect_after_update']) && in_array($actionName, ['update'], true)) {
+        if (isset($configuration['redirect_after_update']) && 'update' === $actionName) {
             $defaults['_crud']['redirect'] = $this->getRouteName($configuration, $configuration['redirect_after_update']);
         }
 
