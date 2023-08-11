@@ -60,7 +60,7 @@ class DataProvider
 
         $query = null === $query
             ? $repository->createQueryBuilder('o')
-            : $repository->$query();
+            : $repository->$query()
         ;
 
         $this->filtering->apply($query, $grid, $request->get('criteria', []));
