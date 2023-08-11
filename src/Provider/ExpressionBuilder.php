@@ -2,7 +2,6 @@
 
 namespace Sherlockode\CrudBundle\Provider;
 
-
 use Doctrine\ORM\Query\Expr\Comparison;
 use Doctrine\ORM\QueryBuilder;
 
@@ -43,10 +42,8 @@ class ExpressionBuilder
      */
     public function notLike(string $field, string $pattern): Comparison
     {
-        $parameterName = $this->getParameterName($field);
-
         return $this->queryBuilder->expr()->notLike(
-            (string) $this->queryBuilder->expr()->lower($this->adjustField($field), ':' . $parameterName),
+            (string) $this->queryBuilder->expr()->lower($this->adjustField($field)),
             $this->queryBuilder->expr()->literal(strtolower($pattern))
         );
     }
@@ -59,10 +56,8 @@ class ExpressionBuilder
      */
     public function like(string $field, string $pattern): Comparison
     {
-        $parameterName = $this->getParameterName($field);
-
         return $this->queryBuilder->expr()->like(
-            (string) $this->queryBuilder->expr()->lower($this->adjustField($field), ':' . $parameterName),
+            (string) $this->queryBuilder->expr()->lower($this->adjustField($field)),
             $this->queryBuilder->expr()->literal(strtolower($pattern))
         );
     }
