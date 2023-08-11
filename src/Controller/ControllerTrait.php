@@ -142,7 +142,7 @@ trait ControllerTrait
      *
      * @return bool
      */
-    protected function isCsrfTokenValid(string $id, #[\SensitiveParameter] ?string $token): bool
+    protected function isCsrfTokenValid(string $id, ?string $token): bool
     {
         return $this->csrfTokenManager->isTokenValid(new CsrfToken($id, $token));
     }
