@@ -194,7 +194,7 @@ class Grid
             $filter->setType($data['type']);
             $filter->setFilterType($filterRegistry->get($data['type'])->getFormType());
             $filter->setTemplate($this->filterTemplates[$data['type']]);
-            $filter->setOptions(array_merge($data['options'], ['label' => 'sherlockode_crud.filter.'.$key]));
+            $filter->setOptions($data['options']);
 
             $this->filters[$key] = $filter;
         }
