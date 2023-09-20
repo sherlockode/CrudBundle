@@ -117,6 +117,7 @@ sherlockode_crud:
                 filters:
                     name:
                         type: string
+                        label: Label or custom translation key
 ```
 
 #### You need to create a custom query for the grid?

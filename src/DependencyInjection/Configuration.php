@@ -87,6 +87,7 @@ class Configuration implements ConfigurationInterface
                                 ->useAttributeAsKey('name')
                                     ->arrayPrototype()
                                         ->children()
+                                            ->scalarNode('label')->cannotBeEmpty()->end()
                                             ->scalarNode('type')->cannotBeEmpty()->end()
                                             ->arrayNode('options')
                                                 ->performNoDeepMerging()
