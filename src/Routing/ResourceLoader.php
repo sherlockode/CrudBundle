@@ -128,10 +128,17 @@ class ResourceLoader implements LoaderInterface
         }
 
         $serviceId = sprintf('%s.%s.%s', $configuration['base_name'], 'controller', $configuration['resource_name']);
+
         $defaults = [
             '_controller' => sprintf('%s::%sAction', $serviceId, $actionName),
-            '_crud' => ['vars' => [ 'page_name' => sprintf('%s.%s.%s', $configuration['base_name'], $configuration['resource_name'], $actionName)]],
+            '_crud' => [
+                'vars' => [
+                    'crud_name' => $configuration['resource_name'],
+                    'page_name' => sprintf('%s.%s.%s', $configuration['base_name'], $configuration['resource_name'], $actionName)
+                ]
+            ],
         ];
+
         if (isset($configuration['templates']) && in_array($actionName, ['show', 'index', 'create', 'update'], true)) {
             $defaults['_crud']['template'] = sprintf('%s/%s.html.twig', $configuration['templates'], $actionName);
         }
