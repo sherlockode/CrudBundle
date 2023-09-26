@@ -11,6 +11,7 @@ sherlockode_crud:
         all: Tous
         perform: Filtrer
         reset: Réinitialiser les filtres
+        string_condition: Condition
         value: Valeur
         contains: Contient
         not_contains: Ne contient pas

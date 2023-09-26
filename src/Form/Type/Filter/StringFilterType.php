@@ -22,7 +22,7 @@ class StringFilterType extends AbstractType
         if (!isset($options['type'])) {
             $builder
                 ->add('type', ChoiceType::class, [
-                    'label' => sprintf('sherlockode_crud.filter.%s', $builder->getName()),
+                    'label' => sprintf('sherlockode_crud.filter.string_condition'),
                     'choices' => [
                         'sherlockode_crud.filter.contains' => StringFilter::TYPE_CONTAINS,
                         'sherlockode_crud.filter.not_contains' => StringFilter::TYPE_NOT_CONTAINS,
