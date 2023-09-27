@@ -398,3 +398,15 @@ sherlockode_crud:
                     name:
                         label: My Name #you can use a translation key or the label value if translation domain is false
 ```
+
+If you need to be more specific, you can disable translation or set a custom for some grids
+```yaml
+# config/packages/sherlockode_crud.yaml
+
+sherlockode_crud:
+    crud:
+        user:
+            config:
+                translation_domain: false #or yourDomain
+```
+If you set a translation_domain for a grid, the value will replace the global one

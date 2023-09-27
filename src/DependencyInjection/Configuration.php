@@ -72,6 +72,7 @@ class Configuration implements ConfigurationInterface
                                 ->scalarNode('class')->cannotBeEmpty()->end()
                                 ->scalarNode('form')->cannotBeEmpty()->end()
                                 ->scalarNode('delete_confirmation')->defaultTrue()->end()
+                                ->scalarNode('translation_domain')->defaultNull()->end()
                             ->end()
                         ->end()
                         ->arrayNode('grid')

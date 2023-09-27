@@ -56,7 +56,7 @@ class SherlockodeCrudExtension extends Extension
                 ->addTag('controller.service_arguments')
             ;
 
-            $crud['config']['translation_domain'] = $config['translation_domain'];
+            $crud['config']['translation_domain'] = $this->getTranslationDomain($config, $key);
 
             $grids[$key] = $crud;
             $grids[$key]['config']['crud_name'] = $key;
@@ -157,5 +157,20 @@ class SherlockodeCrudExtension extends Extension
                 sprintf('You use field type(s) but you have not defined it / them : %s', implode(', ', $fieldTypesUsedNotDefined))
             );
         }
+    }
+
+    /**
+     * @param array  $config
+     * @param string $key
+     *
+     * @return mixed
+     */
+    private function getTranslationDomain(array $config, string $key)
+    {
+        if (isset($config['crud'][$key]['config']['translation_domain'])) {
+            return $config['crud'][$key]['config']['translation_domain'];
+        }
+
+        return $config['translation_domain'];
     }
 }
