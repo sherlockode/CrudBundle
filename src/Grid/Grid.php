@@ -75,10 +75,8 @@ class Grid
         $this->sorting = $this->config['grid']['sorting'] ?? [];
         $this->deleteConfirmation = $this->config['config']['delete_confirmation'] ?? true;
 
-        $className = strtolower((new \ReflectionClass($this->config['config']['class']))->getShortName());
-
         $this->generateFilters($filterRegistry, $this->config['grid']['filters'] ?? []);
-        $this->generateFields($this->config['grid']['fields'] ?? [], $className);
+        $this->generateFields($this->config['grid']['fields'] ?? [], $this->config['config']['crud_name']);
         $this->generateActions($this->config['grid']['actions'] ?? []);
     }
 
@@ -202,16 +200,16 @@ class Grid
 
     /**
      * @param array  $fields
-     * @param string $className
+     * @param string $gridName
      *
      * @return void
      */
-    private function generateFields(array $fields, string $className): void
+    private function generateFields(array $fields, string $gridName): void
     {
         foreach ($fields as $key => $data) {
             $field = new Field();
             $field->setKey($key);
-            $field->setLabel($data['label'] ?? 'sherlockode_crud.' . $className . '.' . $this->camelCaseToSnakeCase($key));
+            $field->setLabel($data['label'] ?? 'sherlockode_crud.' . $gridName . '.' . $this->camelCaseToSnakeCase($key));
             $field->setOptions($data['options'] ?? []);
             $field->setSortable(array_key_exists('sortable', $data));
             $field->setPath($data['path'] ?? null);
