@@ -372,3 +372,29 @@ sherlockode_crud:
                     options:
                         format: d-m-Y
 ```
+
+You need to change the translation domain?
+
+```yaml
+# config/packages/sherlockode_crud.yaml
+
+sherlockode_crud:
+    translation_domain: yourDomain
+```
+
+
+You need to disable the translation domain?
+
+```yaml
+# config/packages/sherlockode_crud.yaml
+
+sherlockode_crud:
+    translation_domain: false
+    crud:
+        user:
+            # ...
+            grid:
+                fields:
+                    name:
+                        label: My Name #you can use a translation key or the label value if translation domain is false
+```

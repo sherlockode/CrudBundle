@@ -56,6 +56,8 @@ class SherlockodeCrudExtension extends Extension
                 ->addTag('controller.service_arguments')
             ;
 
+            $crud['config']['translation_domain'] = $config['translation_domain'];
+
             $grids[$key] = $crud;
             $container->setDefinition(sprintf('%s.%s', 'sherlockode_crud.controller', $key), $definition);
         }

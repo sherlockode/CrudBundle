@@ -3,6 +3,12 @@
 {% set order = gridView.grid.sorting|first %}
 {% set orderField = gridView.grid.sorting|keys|first %}
 
+{% if gridView.grid.config.config.translation_domain is same as(false) %}
+    {% set translation_domain = false %}
+{% else %}
+    {% set translation_domain = gridView.grid.config.config.translation_domain %}
+{% endif %}
+
 <table>
     <thead>
         <tr>
@@ -11,15 +17,15 @@
                     {% if field.isSortable %}
                         {% if orderField == field.key %}
                             <a href="{{ link(field.key, app.request.attributes, (order == 'desc' ? 'asc' : 'desc'), app.request.query) }}">
-                                {{ order == 'desc' ? '&#8595;' : '&#8593;' }} {{ field.label|trans }}
+                                {{ order == 'desc' ? '&#8595;' : '&#8593;' }} {{ translation_domain is same as(false) ? field.label : field.label|trans({}, translation_domain) }}
                             </a>
                         {% else %}
                             <a href="{{ link(field.key, app.request.attributes, order, app.request.query) }}">
-                                &#8597; {{ field.label|trans }}
+                                &#8597; {{ translation_domain is same as(false) ? field.label : field.label|trans({}, translation_domain) }}
                             </a>
                         {% endif %}
                     {% else %}
-                        {{ field.label|trans }}
+                        {{ translation_domain is same as(false) ? field.label : field.label|trans({}, translation_domain) }}
                     {% endif %}
                 </th>
             {% endfor %}
