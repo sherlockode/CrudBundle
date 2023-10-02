@@ -59,6 +59,7 @@ class SherlockodeCrudExtension extends Extension
             $crud['config']['translation_domain'] = $config['translation_domain'];
 
             $grids[$key] = $crud;
+            $grids[$key]['config']['crud_name'] = $key;
             $container->setDefinition(sprintf('%s.%s', 'sherlockode_crud.controller', $key), $definition);
         }
 
