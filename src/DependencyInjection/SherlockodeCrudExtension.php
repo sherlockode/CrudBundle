@@ -45,6 +45,7 @@ class SherlockodeCrudExtension extends Extension
                     new Reference(ViewBuilder::class),
                     new Reference(DataProvider::class),
                     new Reference('doctrine.orm.entity_manager'),
+                    new Reference('event_dispatcher'),
                     $key,
                     $crud['config']['class'],
                     $crud['config']['form'],

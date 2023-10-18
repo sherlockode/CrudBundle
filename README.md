@@ -410,3 +410,35 @@ sherlockode_crud:
                 translation_domain: false #or yourDomain
 ```
 If you set a translation_domain for a grid, the value will replace the global one
+
+#### You need to send data to the views?
+In ResourceAction, you have several actions : 
+- ResourceAction::SHOW
+- ResourceAction::CREATE
+- ResourceAction::UPDATE
+- ResourceAction::DELETE_CONFIRMATION
+
+In ResourceController, in show, create, update and delete confirmation actions, an even is dispatched before the page is rendered
+
+If you need to send data to the view, you can create a listener.
+```php
+# src/EventListener/ResourceListener.php
+
+class ResourceListener implements EventSubscriberInterface
+{
+    public static function getSubscribedEvents(): array
+    {
+        return [
+            ResourceAction::UPDATE => 'update',
+        ];
+    }
+
+    public function update(ResourceControllerEvent $event): void
+    {
+        // send custom data to the view
+        $event->setData([]);
+    }
+}
+```
+
+In the view, the data variable will contain your data sent in the example above

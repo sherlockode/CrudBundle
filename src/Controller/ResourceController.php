@@ -3,11 +3,14 @@
 namespace Sherlockode\CrudBundle\Controller;
 
 use Doctrine\ORM\EntityManagerInterface;
+use Sherlockode\CrudBundle\Event\ResourceControllerEvent;
 use Sherlockode\CrudBundle\Grid\GridBuilder;
 use Sherlockode\CrudBundle\Grid\GridView;
 use Sherlockode\CrudBundle\Provider\DataProvider;
+use Sherlockode\CrudBundle\ResourceAction;
 use Sherlockode\CrudBundle\Routing\Utils;
 use Sherlockode\CrudBundle\View\ViewBuilder;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -54,21 +57,36 @@ class ResourceController
     private $form;
 
     /**
-     * @param GridBuilder            $gridBuilder
-     * @param ViewBuilder            $viewBuilder
-     * @param DataProvider           $dataProvider
-     * @param EntityManagerInterface $em
-     * @param string                 $gridName
-     * @param string                 $class
-     * @param string                 $form
+     * @var EventDispatcherInterface
      */
-    public function __construct(GridBuilder $gridBuilder, ViewBuilder $viewBuilder, DataProvider $dataProvider, EntityManagerInterface $em, string $gridName, string $class, string $form)
-    {
+    private $eventDispatcher;
+
+    /**
+     * @param GridBuilder              $gridBuilder
+     * @param ViewBuilder              $viewBuilder
+     * @param DataProvider             $dataProvider
+     * @param EntityManagerInterface   $em
+     * @param EventDispatcherInterface $eventDispatcher
+     * @param string                   $gridName
+     * @param string                   $class
+     * @param string                   $form
+     */
+    public function __construct(
+        GridBuilder $gridBuilder,
+        ViewBuilder $viewBuilder,
+        DataProvider $dataProvider,
+        EntityManagerInterface $em,
+        EventDispatcherInterface $eventDispatcher,
+        string $gridName,
+        string $class,
+        string $form
+    ) {
         $this->gridBuilder = $gridBuilder;
         $this->viewBuilder = $viewBuilder;
         $this->dataProvider = $dataProvider;
         $this->gridName = $gridName;
         $this->em = $em;
+        $this->eventDispatcher = $eventDispatcher;
         $this->resourceClass = $class;
         $this->form = $form;
     }
@@ -103,11 +121,15 @@ class ResourceController
 
         $view = $this->viewBuilder->build($this->gridName);
 
-        return $this->render($this->getTemplate($request) ?? '@SherlockodeCrud/crud/show.html.twig', [
+        $event = new ResourceControllerEvent($resource);
+        $this->eventDispatcher->dispatch($event, ResourceAction::SHOW);
+
+        return $this->render($this->getTemplate($request) ?? '@SherlockodeCrud/crud/show.html.twig', array_filter([
             'resource' => $resource,
             'showView' => $view,
+            'data' => $event->getData(),
             'vars' => $request->attributes->get('_crud')['vars'] ?? []
-        ]);
+        ]));
     }
 
     /**
@@ -137,10 +159,14 @@ class ResourceController
             return $this->generateRedirection($request, $resource);
         }
 
-        return $this->render($this->getTemplate($request) ?? '@SherlockodeCrud/crud/create.html.twig', [
+        $event = new ResourceControllerEvent($resource);
+        $this->eventDispatcher->dispatch($event, ResourceAction::CREATE);
+
+        return $this->render($this->getTemplate($request) ?? '@SherlockodeCrud/crud/create.html.twig', array_filter([
             'form' => $form->createView(),
+            'data' => $event->getData(),
             'vars' => $request->attributes->get('_crud')['vars'] ?? []
-        ]);
+        ]));
     }
 
     /**
@@ -170,10 +196,14 @@ class ResourceController
             return $this->generateRedirection($request, $resource);
         }
 
-        return $this->render($this->getTemplate($request) ?? '@SherlockodeCrud/crud/edit.html.twig', [
+        $event = new ResourceControllerEvent($resource);
+        $this->eventDispatcher->dispatch($event, ResourceAction::UPDATE);
+
+        return $this->render($this->getTemplate($request) ?? '@SherlockodeCrud/crud/edit.html.twig', array_filter([
             'form' => $form->createView(),
+            'data' => $event->getData(),
             'vars' => $request->attributes->get('_crud')['vars'] ?? []
-        ]);
+        ]));
     }
 
     /**
@@ -241,9 +271,13 @@ class ResourceController
             return $this->generateRedirectionToIndex($request);
         }
 
-        return $this->render('@SherlockodeCrud/crud/delete_confirmation.html.twig', [
+        $event = new ResourceControllerEvent($resource);
+        $this->eventDispatcher->dispatch($event, ResourceAction::DELETE_CONFIRMATION);
+
+        return $this->render('@SherlockodeCrud/crud/delete_confirmation.html.twig', array_filter([
             'resource' => $resource,
-        ]);
+            'data' => $event->getData()
+        ]));
     }
 
     /**
