@@ -1,0 +1,12 @@
+<html lang="en">
+    <body>
+        {% for flashType in app.flashes %}
+            {% for message in flashType %}
+                <div>{{ message }}</div>
+            {% endfor %}
+        {% endfor %}
+
+        {% block content %}
+        {% endblock %}
+    </body>
+</html>

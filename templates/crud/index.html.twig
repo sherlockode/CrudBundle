@@ -1,5 +1,8 @@
+{% extends '@SherlockodeCrud/crud/layout.html.twig' %}
 {% trans_default_domain 'SherlockodeCrud' %}
 
-{{ include('@SherlockodeCrud/common/grid/_filters.html.twig') }}
+{% block content %}
+    {{ include('@SherlockodeCrud/common/grid/_filters.html.twig') }}
 
-{{ sherlockode_crud_render_grid(gridView) }}
+    {{ sherlockode_crud_render_grid(gridView) }}
+{% endblock %}

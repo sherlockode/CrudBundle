@@ -1,7 +1,10 @@
+{% extends '@SherlockodeCrud/crud/layout.html.twig' %}
 {% import '@SherlockodeCrud/common/macro/buttons.html.twig' as buttons %}
 {% set path = sherlockode_crud_path_generator(app.request, 'deleteconfirmation', {'id': resource.id}) %}
 
-<h1>{{ 'sherlockode_crud_delete_'~ app.request.attributes.get('_crud').resource_name|trans }}</h1>
+{% block content %}
+    <h1>{{ 'sherlockode_crud_delete_'~ app.request.attributes.get('_crud').resource_name|trans }}</h1>
 
-<a href="{{ sherlockode_crud_path_generator(app.request, 'index') }}">no</a>
-{{ buttons.delete(path, resource.id) }}
+    <a href="{{ sherlockode_crud_path_generator(app.request, 'index') }}">no</a>
+    {{ buttons.delete(path, resource.id) }}
+{% endblock %}
