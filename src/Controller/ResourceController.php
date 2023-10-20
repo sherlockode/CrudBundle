@@ -127,6 +127,13 @@ class ResourceController
             $this->em->persist($resource);
             $this->em->flush();
 
+            if ($request->attributes->get('_crud')['vars']['crud_name']) {
+                $request->getSession()->getFlashBag()->add(
+                    'success',
+                    'sherlockode_crud.'.$request->attributes->get('_crud')['vars']['crud_name'].'.create.success'
+                );
+            }
+
             return $this->generateRedirection($request, $resource);
         }
 
@@ -152,6 +159,13 @@ class ResourceController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->em->persist($resource);
             $this->em->flush();
+
+            if ($request->attributes->get('_crud')['vars']['crud_name']) {
+                $request->getSession()->getFlashBag()->add(
+                    'success',
+                    'sherlockode_crud.'.$request->attributes->get('_crud')['vars']['crud_name'].'.update.success'
+                );
+            }
 
             return $this->generateRedirection($request, $resource);
         }
@@ -190,6 +204,13 @@ class ResourceController
         $this->em->remove($resource);
         $this->em->flush();
 
+        if ($request->attributes->get('_crud')['vars']['crud_name']) {
+            $request->getSession()->getFlashBag()->add(
+                'success',
+                'sherlockode_crud.'.$request->attributes->get('_crud')['vars']['crud_name'].'.delete.success'
+            );
+        }
+
         return $this->generateRedirectionToIndex($request);
     }
 
@@ -209,6 +230,13 @@ class ResourceController
         if ($isValidToken) {
             $this->em->remove($resource);
             $this->em->flush();
+
+            if ($request->attributes->get('_crud')['vars']['crud_name']) {
+                $request->getSession()->getFlashBag()->add(
+                    'success',
+                    'sherlockode_crud.'.$request->attributes->get('_crud')['vars']['crud_name'].'.delete.success'
+                );
+            }
 
             return $this->generateRedirectionToIndex($request);
         }

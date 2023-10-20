@@ -1,8 +1,11 @@
+{% extends '@SherlockodeCrud/crud/layout.html.twig' %}
 {% trans_default_domain 'SherlockodeCrud' %}
 
-{% for field in showView.fields %}
-    <p>
-        {{ field.label|trans }}
-        {{ sherlockode_crud_render_field(field, resource) }}
-    </p>
-{% endfor %}
+{% block content %}
+    {% for field in showView.fields %}
+        <p>
+            {{ field.label|trans }}
+            {{ sherlockode_crud_render_field(field, resource) }}
+        </p>
+    {% endfor %}
+{% endblock %}
