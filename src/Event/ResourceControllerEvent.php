@@ -6,15 +6,24 @@ use Symfony\Contracts\EventDispatcher\Event;
 
 class ResourceControllerEvent extends Event
 {
+    public const BEFORE_CREATE = 'sherlockode_crud.before_create';
+    public const BEFORE_UPDATE = 'sherlockode_crud.before_update';
+    public const BEFORE_DELETE = 'sherlockode_crud.before_delete';
+
     /**
      * @var mixed|null
      */
     private $subject = null;
 
     /**
-     * @var mixed|null
+     * @var bool
      */
-    private $data = null;
+    private bool $cancelProcess = false;
+
+    /**
+     * @var string|null
+     */
+    private ?string $message = null;
 
     /**
      * @param mixed|null $subject
@@ -45,21 +54,41 @@ class ResourceControllerEvent extends Event
     }
 
     /**
-     * @return mixed
+     * @return bool
      */
-    public function getData()
+    public function isCancelProcess(): bool
     {
-        return $this->data;
+        return $this->cancelProcess;
     }
 
     /**
-     * @param mixed $data
+     * @param bool $cancelProcess
      *
      * @return $this
      */
-    public function setData($data): self
+    public function setCancelProcess(bool $cancelProcess): self
     {
-        $this->data = $data;
+        $this->cancelProcess = $cancelProcess;
+
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getMessage(): ?string
+    {
+        return $this->message;
+    }
+
+    /**
+     * @param string|null $message
+     *
+     * @return $this
+     */
+    public function setMessage(?string $message): self
+    {
+        $this->message = $message;
 
         return $this;
     }

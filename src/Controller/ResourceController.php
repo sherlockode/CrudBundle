@@ -3,11 +3,11 @@
 namespace Sherlockode\CrudBundle\Controller;
 
 use Doctrine\ORM\EntityManagerInterface;
+use Sherlockode\CrudBundle\Event\ResourceControllerDataEvent;
 use Sherlockode\CrudBundle\Event\ResourceControllerEvent;
 use Sherlockode\CrudBundle\Grid\GridBuilder;
 use Sherlockode\CrudBundle\Grid\GridView;
 use Sherlockode\CrudBundle\Provider\DataProvider;
-use Sherlockode\CrudBundle\ResourceAction;
 use Sherlockode\CrudBundle\Routing\Utils;
 use Sherlockode\CrudBundle\View\ViewBuilder;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -121,8 +121,8 @@ class ResourceController
 
         $view = $this->viewBuilder->build($this->gridName);
 
-        $event = new ResourceControllerEvent($resource);
-        $this->eventDispatcher->dispatch($event, ResourceAction::SHOW);
+        $event = new ResourceControllerDataEvent($resource);
+        $this->eventDispatcher->dispatch($event, ResourceControllerDataEvent::SHOW);
 
         return $this->render($this->getTemplate($request) ?? '@SherlockodeCrud/crud/show.html.twig', array_filter([
             'resource' => $resource,
@@ -139,6 +139,8 @@ class ResourceController
      */
     public function createAction(Request $request): Response
     {
+        $crudName = $request->attributes->get('_crud')['vars']['crud_name'] ?? '';
+
         $resource = new $this->resourceClass;
         $this->grantedOrForbidden($request, 'create', $resource);
 
@@ -146,21 +148,31 @@ class ResourceController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $event = new ResourceControllerEvent($resource);
+            $this->eventDispatcher->dispatch($event, ResourceControllerEvent::BEFORE_CREATE);
+
+            if ($event->isCancelProcess()) {
+                $request->getSession()->getFlashBag()->add(
+                    'error',
+                    $event->getMessage() ?? 'sherlockode_crud.' . $crudName . '.create.cancel'
+                );
+
+                return $this->redirect($request->getRequestUri());
+            }
+
             $this->em->persist($resource);
             $this->em->flush();
 
-            if ($request->attributes->get('_crud')['vars']['crud_name']) {
-                $request->getSession()->getFlashBag()->add(
-                    'success',
-                    'sherlockode_crud.'.$request->attributes->get('_crud')['vars']['crud_name'].'.create.success'
-                );
-            }
+            $request->getSession()->getFlashBag()->add(
+                'success',
+                'sherlockode_crud.' . $crudName . '.create.success'
+            );
 
             return $this->generateRedirection($request, $resource);
         }
 
-        $event = new ResourceControllerEvent($resource);
-        $this->eventDispatcher->dispatch($event, ResourceAction::CREATE);
+        $event = new ResourceControllerDataEvent($resource);
+        $this->eventDispatcher->dispatch($event, ResourceControllerDataEvent::CREATE);
 
         return $this->render($this->getTemplate($request) ?? '@SherlockodeCrud/crud/create.html.twig', array_filter([
             'form' => $form->createView(),
@@ -176,6 +188,8 @@ class ResourceController
      */
     public function updateAction(Request $request): Response
     {
+        $crudName = $request->attributes->get('_crud')['vars']['crud_name'] ?? '';
+
         $resource = $this->findEntityOr404($request);
         $this->grantedOrForbidden($request, 'edit', $resource);
 
@@ -183,21 +197,31 @@ class ResourceController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $event = new ResourceControllerEvent($resource);
+            $this->eventDispatcher->dispatch($event, ResourceControllerEvent::BEFORE_UPDATE);
+
+            if ($event->isCancelProcess()) {
+                $request->getSession()->getFlashBag()->add(
+                    'error',
+                    $event->getMessage() ?? 'sherlockode_crud.' . $crudName . '.update.cancel'
+                );
+
+                return $this->redirect($request->getRequestUri());
+            }
+
             $this->em->persist($resource);
             $this->em->flush();
 
-            if ($request->attributes->get('_crud')['vars']['crud_name']) {
-                $request->getSession()->getFlashBag()->add(
-                    'success',
-                    'sherlockode_crud.'.$request->attributes->get('_crud')['vars']['crud_name'].'.update.success'
-                );
-            }
+            $request->getSession()->getFlashBag()->add(
+                'success',
+                'sherlockode_crud.' . $crudName . '.update.success'
+            );
 
             return $this->generateRedirection($request, $resource);
         }
 
-        $event = new ResourceControllerEvent($resource);
-        $this->eventDispatcher->dispatch($event, ResourceAction::UPDATE);
+        $event = new ResourceControllerDataEvent($resource);
+        $this->eventDispatcher->dispatch($event, ResourceControllerDataEvent::UPDATE);
 
         return $this->render($this->getTemplate($request) ?? '@SherlockodeCrud/crud/edit.html.twig', array_filter([
             'form' => $form->createView(),
@@ -213,6 +237,8 @@ class ResourceController
      */
     public function deleteAction(Request $request): RedirectResponse
     {
+        $crudName = $request->attributes->get('_crud')['vars']['crud_name'] ?? '';
+
         $resource = $this->findEntityOr404($request);
         $this->grantedOrForbidden($request, 'delete', $resource);
 
@@ -229,6 +255,18 @@ class ResourceController
                 Utils::generatePathName($request->attributes->get('_route'), 'deleteconfirmation'),
                 ['id' => $resource->getId()]
             );
+        }
+
+        $event = new ResourceControllerEvent($resource);
+        $this->eventDispatcher->dispatch($event, ResourceControllerEvent::BEFORE_DELETE);
+
+        if ($event->isCancelProcess()) {
+            $request->getSession()->getFlashBag()->add(
+                'error',
+                $event->getMessage() ?? 'sherlockode_crud.' . $crudName . '.delete.cancel'
+            );
+
+            return $this->generateRedirectionToIndex($request);
         }
 
         $this->em->remove($resource);
@@ -251,6 +289,8 @@ class ResourceController
      */
     public function deleteConfirmationAction(Request $request): Response
     {
+        $crudName = $request->attributes->get('_crud')['vars']['crud_name'] ?? '';
+
         $resource = $this->findEntityOr404($request);
         $this->grantedOrForbidden($request, 'delete', $resource);
 
@@ -258,21 +298,33 @@ class ResourceController
         $isValidToken = $this->isCsrfTokenValid($resource->getId(), $submittedToken);
 
         if ($isValidToken) {
+            $event = new ResourceControllerEvent($resource);
+            $this->eventDispatcher->dispatch($event, ResourceControllerEvent::BEFORE_DELETE);
+
+            if ($event->isCancelProcess()) {
+                $request->getSession()->getFlashBag()->add(
+                    'error',
+                    $event->getMessage() ?? 'sherlockode_crud.' . $crudName . '.delete.cancel'
+                );
+
+                return $this->generateRedirectionToIndex($request);
+            }
+
             $this->em->remove($resource);
             $this->em->flush();
 
             if ($request->attributes->get('_crud')['vars']['crud_name']) {
                 $request->getSession()->getFlashBag()->add(
                     'success',
-                    'sherlockode_crud.'.$request->attributes->get('_crud')['vars']['crud_name'].'.delete.success'
+                    'sherlockode_crud.' . $crudName . '.delete.success'
                 );
             }
 
             return $this->generateRedirectionToIndex($request);
         }
 
-        $event = new ResourceControllerEvent($resource);
-        $this->eventDispatcher->dispatch($event, ResourceAction::DELETE_CONFIRMATION);
+        $event = new ResourceControllerDataEvent($resource);
+        $this->eventDispatcher->dispatch($event, ResourceControllerDataEvent::DELETE_CONFIRMATION);
 
         return $this->render('@SherlockodeCrud/crud/delete_confirmation.html.twig', array_filter([
             'resource' => $resource,
