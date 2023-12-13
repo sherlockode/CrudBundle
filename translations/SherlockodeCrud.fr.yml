@@ -4,6 +4,8 @@ sherlockode_crud:
     delete: Supprimer
     save: Sauvegarder
     actions: Actions
+    back: Retour
+    create: Créer
     boolean:
         yes: Oui
         no: Non

@@ -1,12 +1,19 @@
 <html lang="en">
+    <head>
+        <title>Sherlockode CRUD</title>
+        <link rel="stylesheet" href="{{ asset('/bundles/sherlockodecrud/css/style.css') }}"/>
+    </head>
     <body>
-        {% for flashType in app.flashes %}
-            {% for message in flashType %}
-                <div>{{ message }}</div>
+        <aside></aside>
+        <main>
+            {% for type, flashType in app.flashes %}
+                {% for message in flashType %}
+                    <div class="flash flash-{{ type }}">{{ message }}</div>
+                {% endfor %}
             {% endfor %}
-        {% endfor %}
 
-        {% block content %}
-        {% endblock %}
+            {% block content %}
+            {% endblock %}
+        </main>
     </body>
 </html>

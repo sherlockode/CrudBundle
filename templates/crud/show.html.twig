@@ -8,4 +8,5 @@
             {{ sherlockode_crud_render_field(field, resource) }}
         </p>
     {% endfor %}
+    <a href="{{ sherlockode_crud_path_generator(app.request, 'index') }}">{{ 'sherlockode_crud.back'|trans }}</a>
 {% endblock %}

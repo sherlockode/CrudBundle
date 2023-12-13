@@ -2,7 +2,10 @@
 {% trans_default_domain 'SherlockodeCrud' %}
 
 {% block content %}
-    {{ include('@SherlockodeCrud/common/grid/_filters.html.twig') }}
+    <div class="filter-and-create">
+        {{ include('@SherlockodeCrud/common/grid/_filters.html.twig') }}
+        <a href="{{ sherlockode_crud_path_generator(app.request, 'create') }}">{{ 'sherlockode_crud.create'|trans }}</a>
+    </div>
 
     {{ sherlockode_crud_render_grid(gridView) }}
 {% endblock %}

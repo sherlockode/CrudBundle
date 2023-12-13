@@ -8,5 +8,6 @@
         {% endfor %}
 
         <button type="submit">{{ 'sherlockode_crud.save'|trans }}</button>
+        <a href="{{ sherlockode_crud_path_generator(app.request, 'index') }}">{{ 'sherlockode_crud.back'|trans }}</a>
     {{ form_end(form) }}
 {% endblock %}

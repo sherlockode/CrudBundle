@@ -42,9 +42,11 @@
                 {% endfor %}
                 {% if gridView.grid.actions is defined and gridView.grid.actions is not empty %}
                     <td>
-                        {% for action in gridView.grid.actions %}
-                            {{ include(action.template) }}
-                        {% endfor %}
+                        <div class="btn-group">
+                            {% for action in gridView.grid.actions %}
+                                {{ include(action.template) }}
+                            {% endfor %}
+                        </div>
                     </td>
                 {% endif %}
             </tr>
