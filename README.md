@@ -412,13 +412,13 @@ sherlockode_crud:
 If you set a translation_domain for a grid, the value will replace the global one
 
 #### You need to send data to the views?
-In ResourceAction, you have several actions : 
-- ResourceAction::SHOW
-- ResourceAction::CREATE
-- ResourceAction::UPDATE
-- ResourceAction::DELETE_CONFIRMATION
+In ResourceControllerDataEvent, you have several actions : 
+- ResourceControllerDataEvent::SHOW
+- ResourceControllerDataEvent::CREATE
+- ResourceControllerDataEvent::UPDATE
+- ResourceControllerDataEvent::DELETE_CONFIRMATION
 
-In ResourceController, in show, create, update and delete confirmation actions, an even is dispatched before the page is rendered
+In ResourceController, in show, create, update and delete confirmation actions, an even is dispatched before the page is rendered.
 
 If you need to send data to the view, you can create a listener.
 ```php
@@ -429,11 +429,11 @@ class ResourceListener implements EventSubscriberInterface
     public static function getSubscribedEvents(): array
     {
         return [
-            ResourceAction::UPDATE => 'update',
+            ResourceControllerDataEvent::UPDATE => 'update',
         ];
     }
 
-    public function update(ResourceControllerEvent $event): void
+    public function update(ResourceControllerDataEvent $event): void
     {
         // send custom data to the view
         $event->setData([]);
@@ -441,4 +441,36 @@ class ResourceListener implements EventSubscriberInterface
 }
 ```
 
-In the view, the data variable will contain your data sent in the example above
+In the view, the data variable will contain your data sent in the example above.
+
+#### You need to prevent flush?
+In ResourceControllerEvent, you have several actions :
+- ResourceControllerEvent::BEFORE_CREATE
+- ResourceControllerEvent::BEFORE_UPDATE
+- ResourceControllerEvent::BEFORE_DELETE
+
+In ResourceController, in create, update and delete actions, an even is dispatched before flush is performed.
+
+If you need to cancel the flush, you can create a listener
+```php
+# src/EventListener/ResourceListener.php
+
+class ResourceListener implements EventSubscriberInterface
+{
+    public static function getSubscribedEvents(): array
+    {
+        return [
+            ResourceControllerEvent::BEFORE_UPDATE => 'update',
+        ];
+    }
+
+    public function update(ResourceControllerDataEvent $event): void
+    {
+        $event->setCancelProcess(true);
+        
+        // optional message, by default, a translation key is generated 
+        // sherlockode_crud.crud_name.update.cancel
+        $event->setMessage('your message');
+    }
+}
+```
