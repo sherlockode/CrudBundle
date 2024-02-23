@@ -2,6 +2,12 @@
 
 ----
 
+[ ![](https://img.shields.io/packagist/l/sherlockode/crud-bundle)](https://packagist.org/packages/sherlockode/crud-bundle "License")
+[ ![](https://img.shields.io/packagist/v/sherlockode/crud-bundle)](https://packagist.org/packages/sherlockode/crud-bundle "Version")
+[ ![](https://poser.pugx.org/sherlockode/crud-bundle/downloads)](https://packagist.org/packages/sherlockode/crud-bundle "Total Downloads")
+
+---
+
 ## Overview
 
 ----
