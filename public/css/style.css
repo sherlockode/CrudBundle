@@ -1,4 +1,4 @@
-*, *::before, *::after {
+.sherlockode-crud *, .sherlockode-crud *::before, .sherlockode-crud *::after {
     box-sizing: border-box;
 }
 
@@ -19,7 +19,7 @@ aside {
     min-height: 100vh;
 }
 
-main {
+main.sherlockode-crud {
     margin: 50px;
     padding: 20px;
     background: #fff;
@@ -27,7 +27,7 @@ main {
     box-shadow: 0 2px 6px 0 rgba(67,89,113,.12);
 }
 
-button, a {
+.sherlockode-crud button, .sherlockode-crud a {
     cursor: pointer;
     border: none;
     font-size: 16px;
@@ -39,88 +39,87 @@ button, a {
     color: #566a7f;
 }
 
-form {
+.sherlockode-crud form {
     margin: 0;
 }
 
-
-label {
+.sherlockode-crud label {
     margin-right: 10px;
 }
 
-table {
+.sherlockode-crud table {
     width: 100%;
 }
 
-table > :not(caption) > * > * {
+.sherlockode-crud table > :not(caption) > * > * {
     padding: 0.5rem 0.5rem;
 }
 
-thead, tbody, tfoot, tr, td, th {
+.sherlockode-crud thead, .sherlockode-crud tbody, .sherlockode-crud tfoot, .sherlockode-crud tr, .sherlockode-crud td, .sherlockode-crud th {
     border-bottom-width: 1px;
     border-bottom-style: dashed;
     border-bottom-color: #dcdcec;
 }
 
-th {
+.sherlockode-crud th {
     text-align: left;
 }
 
-.btn-group {
+.sherlockode-crud .btn-group {
     display: inline-flex;
 }
 
-.btn-group > a, .btn-group button {
+.sherlockode-crud .btn-group > a, .sherlockode-crud .btn-group button {
     align-self: center;
 }
 
-.btn-group > a:not(:last-child) {
+.sherlockode-crud .btn-group > a:not(:last-child) {
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;
 }
 
-.btn-group > a:not(:first-child),
-.btn-group > * > button:not(:first-child) {
+.sherlockode-crud .btn-group > a:not(:first-child),
+.sherlockode-crud .btn-group > * > button:not(:first-child) {
     border-top-left-radius: 0;
     border-bottom-left-radius: 0;
 }
 
-.mb-3 {
+.sherlockode-crud .mb-3 {
     margin-bottom: 1rem;
 }
 
-.filters {
+.sherlockode-crud .filters {
     margin-bottom: 50px;
 }
 
-.filters > div:not(:last-child) {
+.sherlockode-crud .filters > div:not(:last-child) {
     margin-bottom: 20px;
 }
 
-.filter-string {
+.sherlockode-crud .filter-string {
     display: flex;
     gap: 20px;
 }
 
-form[method="post"] > div {
+.sherlockode-crud form[method="post"] > div {
     margin-bottom: 12px;
 }
 
-.flash {
+.sherlockode-crud .flash {
     padding: 10px;
     border-radius: 8px;
     margin-bottom: 10px;
 }
 
-.flash-success {
+.sherlockode-crud .flash-success {
     background: #89c789;
 }
 
-.filter-and-create {
+.sherlockode-crud .filter-and-create {
     display: flex;
     justify-content: space-between;
 }
 
-.filter-and-create > a {
+.sherlockode-crud .filter-and-create > a {
     align-self: baseline;
 }
