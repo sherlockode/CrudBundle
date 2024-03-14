@@ -5,7 +5,7 @@
     </head>
     <body>
         <aside></aside>
-        <main>
+        <main class="sherlockode-crud">
             {% for type, flashType in app.flashes %}
                 {% for message in flashType %}
                     <div class="flash flash-{{ type }}">{{ message }}</div>
