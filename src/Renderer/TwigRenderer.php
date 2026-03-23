@@ -1,7 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Sherlockode\CrudBundle\Renderer;
 
+use Twig\Error\LoaderError;
+use Twig\Error\RuntimeError;
+use Twig\Error\SyntaxError;
 use Sherlockode\CrudBundle\Field\FieldInterface;
 use Sherlockode\CrudBundle\Form\Type\FormTypeRegistry;
 use Sherlockode\CrudBundle\Grid\Field;
@@ -15,40 +20,18 @@ use Twig\Environment;
 
 class TwigRenderer
 {
-    /**
-     * @var Environment
-     */
-    private $env;
-
-    /**
-     * @var PropertyAccessorInterface
-     */
-    private $propertyAccessor;
-
-    /**
-     * @var FormFactoryInterface
-     */
-    private $formFactory;
-
-    /**
-     * @param Environment               $twig
-     * @param PropertyAccessorInterface $propertyAccessor
-     * @param FormFactoryInterface      $formFactory
-     */
-    public function __construct(Environment $twig, PropertyAccessorInterface $propertyAccessor, FormFactoryInterface $formFactory)
-    {
-        $this->env = $twig;
-        $this->propertyAccessor = $propertyAccessor;
-        $this->formFactory = $formFactory;
+    public function __construct(
+        private readonly Environment $env,
+        private readonly PropertyAccessorInterface $propertyAccessor,
+        private readonly FormFactoryInterface $formFactory,
+    ) {
     }
 
     /**
-     * @param FieldInterface $field
      * @param                $data
-     *
      * @return mixed
      */
-    public function renderField(FieldInterface $field, $data)
+    public function renderField(FieldInterface $field, object|array $data)
     {
         if ('.' === $field->getPath()) {
             return $data;
@@ -56,23 +39,21 @@ class TwigRenderer
 
         try {
             return $this->propertyAccessor->getValue($data, $field->getPath());
-        } catch (\Exception $exception) {
+        } catch (\Exception) {
             return '';
         }
     }
 
     /**
-     * @param GridView    $gridView
      * @param array       $params
-     * @param string|null $template
      *
      * @return string
      *
-     * @throws \Twig\Error\LoaderError
-     * @throws \Twig\Error\RuntimeError
-     * @throws \Twig\Error\SyntaxError
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
      */
-    public function renderGrid(GridView $gridView, $params = [], ?string $template = null)
+    public function renderGrid(GridView $gridView, $params = [], ?string $template = null): string
     {
         return $this->env->render(
             $template ?: '@SherlockodeCrud/common/grid/grid.html.twig',
@@ -80,12 +61,6 @@ class TwigRenderer
         );
     }
 
-    /**
-     * @param Filter  $filter
-     * @param Request $request
-     *
-     * @return string
-     */
     public function renderFilter(Filter $filter, Request $request): string
     {
         $form = $this->formFactory->createNamed('criteria', FormType::class, [], [

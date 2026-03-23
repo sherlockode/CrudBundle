@@ -1,33 +1,24 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Sherlockode\CrudBundle\Provider;
 
 
+use Sherlockode\CrudBundle\Grid\Filter;
+use Sherlockode\CrudBundle\Filter\FilterInterface;
 use Doctrine\ORM\QueryBuilder;
 use Sherlockode\CrudBundle\Filter\FilterRegistry;
 use Sherlockode\CrudBundle\Grid\Grid;
 
 class Filtering
 {
-    /**
-     * @var FilterRegistry
-     */
-    private $filterRegistry;
-
-    /**
-     * @param FilterRegistry $filterRegistry
-     */
-    public function __construct(FilterRegistry $filterRegistry)
+    public function __construct(private readonly FilterRegistry $filterRegistry)
     {
-        $this->filterRegistry = $filterRegistry;
     }
 
     /**
-     * @param QueryBuilder $builder
-     * @param Grid         $grid
-     * @param array        $criteria
      *
-     * @return void
      *
      * @throws \Exception
      */
@@ -36,12 +27,12 @@ class Filtering
         foreach ($criteria as $key => $data) {
             $gridFilter = $grid->getFilter($key);
 
-            if (null === $gridFilter) {
+            if (!$gridFilter instanceof Filter) {
                 continue;
             }
 
             $filter = $this->filterRegistry->get($gridFilter->getType());
-            if (null === $filter) {
+            if (!$filter instanceof FilterInterface) {
                 throw new \Exception(sprintf('Fitler type %s does not exist', $gridFilter->getFilterType()));
             }
 

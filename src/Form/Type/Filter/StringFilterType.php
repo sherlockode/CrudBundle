@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Sherlockode\CrudBundle\Form\Type\Filter;
 
 use Sherlockode\CrudBundle\Filter\StringFilter;
@@ -11,18 +13,12 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class StringFilterType extends AbstractType
 {
-    /**
-     * @param FormBuilderInterface $builder
-     * @param array                $options
-     *
-     * @return void
-     */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         if (!isset($options['type'])) {
             $builder
                 ->add('type', ChoiceType::class, [
-                    'label' => sprintf('sherlockode_crud.filter.string_condition'),
+                    'label' => 'sherlockode_crud.filter.string_condition',
                     'choices' => [
                         'sherlockode_crud.filter.contains' => StringFilter::TYPE_CONTAINS,
                         'sherlockode_crud.filter.not_contains' => StringFilter::TYPE_NOT_CONTAINS,
@@ -40,11 +36,6 @@ class StringFilterType extends AbstractType
         ;
     }
 
-    /**
-     * @param OptionsResolver $resolver
-     *
-     * @return void
-     */
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver
@@ -58,4 +49,3 @@ class StringFilterType extends AbstractType
         ;
     }
 }
-

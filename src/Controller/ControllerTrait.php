@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Sherlockode\CrudBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Routing\Router;
@@ -35,36 +37,16 @@ trait ControllerTrait
      */
     private $formFactory;
 
-    /**
-     * @param string $route
-     * @param array  $parameters
-     * @param int    $referenceType
-     *
-     * @return string
-     */
     protected function generateUrl(string $route, array $parameters = [], int $referenceType = UrlGeneratorInterface::ABSOLUTE_PATH): string
     {
         return $this->router->generate($route, $parameters, $referenceType);
     }
 
-    /**
-     * @param string $url
-     * @param int    $status
-     *
-     * @return RedirectResponse
-     */
     protected function redirect(string $url, int $status = 302): RedirectResponse
     {
         return new RedirectResponse($url, $status);
     }
 
-    /**
-     * @param string $route
-     * @param array  $parameters
-     * @param int    $status
-     *
-     * @return RedirectResponse
-     */
     protected function redirectToRoute(string $route, array $parameters = [], int $status = 302): RedirectResponse
     {
         return $this->redirect($this->generateUrl($route, $parameters), $status);
@@ -73,20 +55,12 @@ trait ControllerTrait
     /**
      * @param $attributes
      * @param $subject
-     *
-     * @return bool
      */
     protected function isGranted($attributes, $subject = null): bool
     {
         return $this->csrfTokenManager->isGranted($attributes, $subject);
     }
 
-    /**
-     * @param string $view
-     * @param array  $parameters
-     *
-     * @return string
-     */
     protected function renderView(string $view, array $parameters = []): string
     {
         foreach ($parameters as $k => $v) {
@@ -99,21 +73,18 @@ trait ControllerTrait
     }
 
     /**
-     * @param string        $view
-     * @param array         $parameters
      * @param Response|null $response
      *
-     * @return Response
      */
     protected function render(string $view, array $parameters = [], Response $response = null): Response
     {
         $content = $this->renderView($view, $parameters);
         $response ??= new Response();
 
-        if (200 === $response->getStatusCode()) {
+        if (Response::HTTP_OK === $response->getStatusCode()) {
             foreach ($parameters as $v) {
                 if ($v instanceof FormInterface && $v->isSubmitted() && !$v->isValid()) {
-                    $response->setStatusCode(422);
+                    $response->setStatusCode(Response::HTTP_UNPROCESSABLE_ENTITY);
                     break;
                 }
             }
@@ -125,33 +96,22 @@ trait ControllerTrait
     }
 
     /**
-     * @param string     $type
      * @param mixed|null $data
-     * @param array      $options
      *
-     * @return FormInterface
      */
     protected function createForm(string $type, mixed $data = null, array $options = []): FormInterface
     {
         return $this->formFactory->create($type, $data, $options);
     }
 
-    /**
-     * @param string      $id
-     * @param string|null $token
-     *
-     * @return bool
-     */
-    protected function isCsrfTokenValid(string $id, ?string $token): bool
+    protected function isCsrfTokenValid(string|int $id, ?string $token): bool
     {
-        return $this->csrfTokenManager->isTokenValid(new CsrfToken($id, $token));
+        return $this->csrfTokenManager->isTokenValid(new CsrfToken((string) $id, $token));
     }
 
     /**
-     * @param string          $message
      * @param \Throwable|null $previous
      *
-     * @return AccessDeniedException
      */
     protected function createAccessDeniedException(string $message = 'Access Denied.', \Throwable $previous = null): AccessDeniedException
     {
@@ -163,8 +123,6 @@ trait ControllerTrait
     }
 
     /**
-     * @param Router $router
-     *
      * @return $this
      */
     public function setRouter(Router $router): self
@@ -175,8 +133,6 @@ trait ControllerTrait
     }
 
     /**
-     * @param CsrfTokenManagerInterface $csrfTokenManager
-     *
      * @return $this
      */
     public function setCsrfTokenManager(CsrfTokenManagerInterface $csrfTokenManager): self
@@ -187,8 +143,6 @@ trait ControllerTrait
     }
 
     /**
-     * @param Environment $twig
-     *
      * @return $this
      */
     public function setTwig(Environment $twig): self
@@ -199,8 +153,6 @@ trait ControllerTrait
     }
 
     /**
-     * @param FormFactory $formFactory
-     *
      * @return $this
      */
     public function setFormFactory(FormFactory $formFactory): self

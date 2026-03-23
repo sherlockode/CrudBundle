@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Sherlockode\CrudBundle\DependencyInjection;
 
 use Sherlockode\CrudBundle\Controller\ResourceController;
@@ -18,7 +20,7 @@ class SherlockodeCrudExtension extends Extension
     /**
      * @var string[]
      */
-    private $defaultFieldType = ['date', 'boolean'];
+    private array $defaultFieldType = ['date', 'boolean'];
 
     public function load(array $configs, ContainerBuilder $container): void
     {
@@ -67,11 +69,6 @@ class SherlockodeCrudExtension extends Extension
         $container->setParameter('sherlockode_crud.grids_definitions', $grids);
     }
 
-    /**
-     * @param array $config
-     *
-     * @return array
-     */
     private function defaultTemplate(array $config): array
     {
         if (!isset($config['templates']['action']['show'])) {
@@ -125,11 +122,6 @@ class SherlockodeCrudExtension extends Extension
         return $config;
     }
 
-    /**
-     * @param array $config
-     *
-     * @return void
-     */
     private function checkFieldTypeExist(array $config): void
     {
         $fieldTypesDefined = array_diff(array_keys($config['templates']['field']) ?? [], $this->defaultFieldType);
@@ -147,13 +139,13 @@ class SherlockodeCrudExtension extends Extension
         $fieldTypesDefinedNotUsed = array_diff($fieldTypesDefined, $fieldTypesUsed);
         $fieldTypesUsedNotDefined = array_diff($fieldTypesUsed, $fieldTypesDefined);
 
-        if (!empty($fieldTypesDefinedNotUsed)) {
+        if ($fieldTypesDefinedNotUsed !== []) {
             throw new \InvalidArgumentException(
                 sprintf('You have defined field type(s) but you not use it / them : %s', implode(', ', $fieldTypesDefinedNotUsed))
             );
         }
 
-        if (!empty($fieldTypesUsedNotDefined)) {
+        if ($fieldTypesUsedNotDefined !== []) {
             throw new \InvalidArgumentException(
                 sprintf('You use field type(s) but you have not defined it / them : %s', implode(', ', $fieldTypesUsedNotDefined))
             );
@@ -161,17 +153,11 @@ class SherlockodeCrudExtension extends Extension
     }
 
     /**
-     * @param array  $config
-     * @param string $key
      *
      * @return mixed
      */
     private function getTranslationDomain(array $config, string $key)
     {
-        if (isset($config['crud'][$key]['config']['translation_domain'])) {
-            return $config['crud'][$key]['config']['translation_domain'];
-        }
-
-        return $config['translation_domain'];
+        return $config['crud'][$key]['config']['translation_domain'] ?? $config['translation_domain'];
     }
 }

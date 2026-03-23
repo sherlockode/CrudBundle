@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Sherlockode\CrudBundle\Provider;
 
 use Doctrine\ORM\QueryBuilder;
@@ -8,11 +10,7 @@ use Sherlockode\CrudBundle\Grid\Grid;
 class Sorting
 {
     /**
-     * @param QueryBuilder $builder
-     * @param Grid         $grid
-     * @param array        $sorting
      *
-     * @return void
      *
      * @throws \Exception
      */

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Sherlockode\CrudBundle\Filter;
 
 use Doctrine\ORM\Query\Expr\Comparison;
@@ -15,30 +17,19 @@ class StringFilter implements FilterInterface
 
     const TYPE_NOT_CONTAINS = 'not_contains';
 
-    /**
-     * @param string $type
-     *
-     * @return bool
-     */
     public function supports(string $type): bool
     {
         return 'string' === $type;
     }
 
-    /**
-     * @return string
-     */
     public function getFormType(): string
     {
         return StringFilterType::class;
     }
 
     /**
-     * @param QueryBuilder $query
-     * @param string       $field
      * @param array        $data
      *
-     * @return void
      */
     public function apply(QueryBuilder $query, string $field, $data): void
     {
@@ -50,27 +41,18 @@ class StringFilter implements FilterInterface
     }
 
     /**
-     * @param QueryBuilder $query
-     * @param string       $field
-     * @param array        $data
      *
-     * @return Comparison
      *
      * @throws \Exception
      */
     private function getExpression(QueryBuilder $query, string $field, array $data): Comparison
     {
         $expressionBuilder = new ExpressionBuilder($query);
-
-        switch ($data['type']) {
-            case self::TYPE_EQUAL:
-                return $expressionBuilder->equals($field, $data['value']);
-            case self::TYPE_CONTAINS:
-                return $expressionBuilder->like($field, '%' . $data['value'] . '%');
-            case self::TYPE_NOT_CONTAINS:
-                return $expressionBuilder->notLike($field, '%' . $data['value'] . '%');
-        }
-
-        throw new \Exception(sprintf('Expression type %s does not exist', $data['type']));
+        return match ($data['type']) {
+            self::TYPE_EQUAL => $expressionBuilder->equals($field, $data['value']),
+            self::TYPE_CONTAINS => $expressionBuilder->like($field, '%' . $data['value'] . '%'),
+            self::TYPE_NOT_CONTAINS => $expressionBuilder->notLike($field, '%' . $data['value'] . '%'),
+            default => throw new \Exception(sprintf('Expression type %s does not exist', $data['type'])),
+        };
     }
 }

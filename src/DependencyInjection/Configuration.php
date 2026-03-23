@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Sherlockode\CrudBundle\DependencyInjection;
 
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
@@ -21,11 +23,6 @@ class Configuration implements ConfigurationInterface
         return $treeBuilder;
     }
 
-    /**
-     * @param ArrayNodeDefinition $node
-     *
-     * @return void
-     */
     private function addTemplatesSection(ArrayNodeDefinition $node): void
     {
         $node
@@ -54,11 +51,6 @@ class Configuration implements ConfigurationInterface
         ;
     }
 
-    /**
-     * @param ArrayNodeDefinition $node
-     *
-     * @return void
-     */
     private function addGridsSection(ArrayNodeDefinition $node): void
     {
         $node

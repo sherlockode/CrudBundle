@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Sherlockode\CrudBundle\View;
 
 
@@ -8,15 +10,13 @@ class View
     /**
      * @var Field[]
      */
-    private $fields = [];
+    private array $fields = [];
 
     /**
-     * @param array $config
      * @param       $fieldTemplates
-     *
      * @throws \ReflectionException
      */
-    public function __construct(array $config = [], $fieldTemplates = [])
+    public function __construct(array $config = [], array $fieldTemplates = [])
     {
         $className = strtolower((new \ReflectionClass($config['config']['class']))->getShortName());
         $config = $config['show'] ?? [];
@@ -56,13 +56,8 @@ class View
         return $this;
     }
 
-    /**
-     * @param string $string
-     *
-     * @return string
-     */
     private function camelCaseToSnakeCase(string $string): string
     {
-        return strtolower(preg_replace('/(?<!^)[A-Z]/', '_$0', $string));
+        return strtolower((string) preg_replace('/(?<!^)[A-Z]/', '_$0', $string));
     }
 }

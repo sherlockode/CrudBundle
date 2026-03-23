@@ -1,34 +1,17 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Sherlockode\CrudBundle\View;
 
 class ViewBuilder
 {
-    /**
-     * @var ViewConfiguration
-     */
-    private $viewConfiguration;
-
-    /**
-     * @var array
-     */
-    private $fieldTemplates;
-
-    /**
-     * @param ViewConfiguration $viewConfiguration
-     * @param array             $fieldTemplates
-     */
-    public function __construct(ViewConfiguration $viewConfiguration, array $fieldTemplates = [])
-    {
-        $this->viewConfiguration = $viewConfiguration;
-        $this->fieldTemplates = $fieldTemplates;
+    public function __construct(
+        private readonly ViewConfiguration $viewConfiguration,
+        private readonly array $fieldTemplates = []
+    ) {
     }
 
-    /**
-     * @param string $code
-     *
-     * @return View
-     */
     public function build(string $code): View
     {
         $config = $this->viewConfiguration->getConfigurationByCode($code);

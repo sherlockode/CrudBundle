@@ -1,52 +1,31 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Sherlockode\CrudBundle\Grid;
 
 use Sherlockode\CrudBundle\Field\FieldInterface;
 
 class Field implements FieldInterface
 {
-    /**
-     * @var string
-     */
-    private $key;
+    private ?string $key = null;
 
-    /**
-     * @var string
-     */
-    private $label;
+    private ?string $label = null;
 
-    /**
-     * @var string
-     */
-    private $path;
+    private ?string $path = null;
 
-    /**
-     * @var string|null
-     */
-    private $template;
+    private ?string $template = null;
 
-    /**
-     * @var array
-     */
-    private $options;
+    private ?array $options = null;
 
-    /**
-     * @var bool
-     */
-    private $sortable = false;
+    private bool $sortable = false;
 
-    /**
-     * @return string
-     */
     public function getKey(): string
     {
         return $this->key;
     }
 
     /**
-     * @param string $key
-     *
      * @return $this
      */
     public function setKey(string $key): self
@@ -56,17 +35,12 @@ class Field implements FieldInterface
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getLabel(): string
     {
         return $this->label;
     }
 
     /**
-     * @param string $label
-     *
      * @return $this
      */
     public function setLabel(string $label): self
@@ -76,12 +50,9 @@ class Field implements FieldInterface
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getPath(): string
     {
-        return null === $this->path ? $this->getKey() : $this->path;
+        return $this->path ?? $this->getKey();
     }
 
     /**
@@ -96,17 +67,12 @@ class Field implements FieldInterface
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
     public function getTemplate(): ?string
     {
         return $this->template;
     }
 
     /**
-     * @param string|null $template
-     *
      * @return $this
      */
     public function setTemplate(?string $template): self
@@ -116,17 +82,12 @@ class Field implements FieldInterface
         return $this;
     }
 
-    /**
-     * @return array
-     */
     public function getOptions(): array
     {
         return $this->options;
     }
 
     /**
-     * @param array $options
-     *
      * @return $this
      */
     public function setOptions(array $options): self
@@ -136,17 +97,12 @@ class Field implements FieldInterface
         return $this;
     }
 
-    /**
-     * @return bool
-     */
     public function isSortable(): bool
     {
         return $this->sortable;
     }
 
     /**
-     * @param bool $sortable
-     *
      * @return $this
      */
     public function setSortable(bool $sortable): self

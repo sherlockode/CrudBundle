@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Sherlockode\CrudBundle\Form\Type\Filter;
 
 use Sherlockode\CrudBundle\Filter\BooleanFilter;
@@ -9,11 +11,6 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class BooleanFilterType extends AbstractType
 {
-    /**
-     * @param OptionsResolver $resolver
-     *
-     * @return void
-     */
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver

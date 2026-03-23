@@ -1,29 +1,17 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Sherlockode\CrudBundle\Grid;
 
 use Knp\Component\Pager\Pagination\PaginationInterface;
 
 class GridView
 {
-    /**
-     * @var PaginationInterface
-     */
-    private $data;
-
-    /**
-     * @var Grid
-     */
-    private $grid;
-
-    /**
-     * @param PaginationInterface $data
-     * @param Grid                $grid
-     */
-    public function __construct(PaginationInterface $data, Grid $grid)
-    {
-        $this->data = $data;
-        $this->grid = $grid;
+    public function __construct(
+        private readonly PaginationInterface $data,
+        private readonly Grid $grid,
+    ) {
     }
 
     /**
@@ -34,9 +22,6 @@ class GridView
         return $this->data;
     }
 
-    /**
-     * @return Grid
-     */
     public function getGrid(): Grid
     {
         return $this->grid;

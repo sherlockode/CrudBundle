@@ -1,24 +1,19 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Sherlockode\CrudBundle\View;
 
 class ViewConfiguration
 {
     /**
-     * @var array
-     */
-    private $configs;
-
-    /**
      * @param array $configs
      */
-    public function __construct(?array $configs = [])
+    public function __construct(private ?array $configs = [])
     {
-        $this->configs = $configs;
     }
 
     /**
-     * @param string $code
      *
      * @return array
      * @throws \Exception

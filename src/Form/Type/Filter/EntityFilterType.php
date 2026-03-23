@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Sherlockode\CrudBundle\Form\Type\Filter;
 
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;

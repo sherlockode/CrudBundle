@@ -1,7 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Sherlockode\CrudBundle\Controller;
 
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Sherlockode\CrudBundle\Event\ResourceControllerDataEvent;
 use Sherlockode\CrudBundle\Event\ResourceControllerEvent;
@@ -21,79 +25,18 @@ class ResourceController
 {
     use ControllerTrait;
 
-    /**
-     * @var GridBuilder
-     */
-    private $gridBuilder;
-
-    /**
-     * @var ViewBuilder
-     */
-    private $viewBuilder;
-
-    /**
-     * @var DataProvider
-     */
-    private $dataProvider;
-
-    /**
-     * @var string
-     */
-    private $gridName;
-
-    /**
-     * @var EntityManagerInterface
-     */
-    private $em;
-
-    /**
-     * @var string
-     */
-    private $resourceClass;
-
-    /**
-     * @var string
-     */
-    private $form;
-
-    /**
-     * @var EventDispatcherInterface
-     */
-    private $eventDispatcher;
-
-    /**
-     * @param GridBuilder              $gridBuilder
-     * @param ViewBuilder              $viewBuilder
-     * @param DataProvider             $dataProvider
-     * @param EntityManagerInterface   $em
-     * @param EventDispatcherInterface $eventDispatcher
-     * @param string                   $gridName
-     * @param string                   $class
-     * @param string                   $form
-     */
     public function __construct(
-        GridBuilder $gridBuilder,
-        ViewBuilder $viewBuilder,
-        DataProvider $dataProvider,
-        EntityManagerInterface $em,
-        EventDispatcherInterface $eventDispatcher,
-        string $gridName,
-        string $class,
-        string $form
+        private GridBuilder $gridBuilder,
+        private ViewBuilder $viewBuilder,
+        private DataProvider $dataProvider,
+        private EntityManagerInterface $em,
+        private EventDispatcherInterface $eventDispatcher,
+        private string $gridName,
+        private string $resourceClass,
+        private string $form
     ) {
-        $this->gridBuilder = $gridBuilder;
-        $this->viewBuilder = $viewBuilder;
-        $this->dataProvider = $dataProvider;
-        $this->gridName = $gridName;
-        $this->em = $em;
-        $this->eventDispatcher = $eventDispatcher;
-        $this->resourceClass = $class;
-        $this->form = $form;
     }
 
-    /**
-     * @return Response
-     */
     public function indexAction(Request $request): Response
     {
         $this->grantedOrForbidden($request, 'index');
@@ -109,11 +52,6 @@ class ResourceController
         ]);
     }
 
-    /**
-     * @param Request $request
-     *
-     * @return Response
-     */
     public function showAction(Request $request): Response
     {
         $resource = $this->findEntityOr404($request);
@@ -132,11 +70,6 @@ class ResourceController
         ]));
     }
 
-    /**
-     * @param Request $request
-     *
-     * @return Response
-     */
     public function createAction(Request $request): Response
     {
         $crudName = $request->attributes->get('_crud')['vars']['crud_name'] ?? '';
@@ -181,11 +114,6 @@ class ResourceController
         ]));
     }
 
-    /**
-     * @param Request $request
-     *
-     * @return Response
-     */
     public function updateAction(Request $request): Response
     {
         $crudName = $request->attributes->get('_crud')['vars']['crud_name'] ?? '';
@@ -230,11 +158,6 @@ class ResourceController
         ]));
     }
 
-    /**
-     * @param Request $request
-     *
-     * @return RedirectResponse
-     */
     public function deleteAction(Request $request): RedirectResponse
     {
         $crudName = $request->attributes->get('_crud')['vars']['crud_name'] ?? '';
@@ -282,11 +205,6 @@ class ResourceController
         return $this->generateRedirectionToIndex($request);
     }
 
-    /**
-     * @param Request $request
-     *
-     * @return Response
-     */
     public function deleteConfirmationAction(Request $request): Response
     {
         $crudName = $request->attributes->get('_crud')['vars']['crud_name'] ?? '';
@@ -333,8 +251,6 @@ class ResourceController
     }
 
     /**
-     * @param Request $request
-     *
      * @return object
      */
     private function findEntityOr404(Request $request)
@@ -349,15 +265,14 @@ class ResourceController
     }
 
     /**
-     * @param Request $request
      * @param mixed   $resource
      *
-     * @return RedirectResponse
      */
     private function generateRedirection(Request $request, $resource): RedirectResponse
     {
         $route = $request->attributes->get('_crud')['redirect'];
-        $route = explode('_', $route);
+        $route = explode('_', (string) $route);
+
         $routeAction = $route[count($route) - 1];
 
         if ('index' === $routeAction || 'create' === $routeAction) {
@@ -367,23 +282,16 @@ class ResourceController
         return $this->redirectToRoute($request->attributes->get('_crud')['redirect'], ['id' => $resource->getId()]);
     }
 
-    /**
-     * @param Request $request
-     *
-     * @return RedirectResponse
-     */
     private function generateRedirectionToIndex(Request $request): RedirectResponse
     {
         return $this->redirectToRoute(Utils::generatePathName($request->attributes->get('_route'), 'index'));
     }
 
     /**
-     * @param Request $request
      *
-     * @return string|null
      *
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     private function getTemplate(Request $request): ?string
     {
@@ -403,18 +311,14 @@ class ResourceController
     }
 
     /**
-     * @param Request $request
-     * @param string  $action
      * @param         $resource
      *
      * @return void
      */
-    private function grantedOrForbidden(Request $request, string $action, $resource = null)
+    private function grantedOrForbidden(Request $request, string $action, $resource = null): void
     {
-        if ($request->attributes->get('_crud')['permission']) {
-            if (!$this->isGranted($request->attributes->get('_crud')['resource_name'].'_'.$action, $resource)) {
-                throw $this->createAccessDeniedException();
-            }
+        if ($request->attributes->get('_crud')['permission'] && !$this->isGranted($request->attributes->get('_crud')['resource_name'].'_'.$action, $resource)) {
+            throw $this->createAccessDeniedException();
         }
     }
 }

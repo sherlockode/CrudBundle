@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Sherlockode\CrudBundle\Provider;
 
 use Doctrine\ORM\EntityManagerInterface;
@@ -10,45 +12,17 @@ use Symfony\Component\HttpFoundation\Request;
 
 class DataProvider
 {
-    /**
-     * @var EntityManagerInterface
-     */
-    private $em;
+    private PaginatorInterface $paginator;
 
-    /**
-     * @var PaginatorInterface
-     */
-    private $paginator;
-
-    /**
-     * @var Filtering
-     */
-    private $filtering;
-
-    /**
-     * @var Sorting
-     */
-    private $sorting;
-
-    /**
-     * @param EntityManagerInterface $em
-     * @param PaginatorInterface     $paginator
-     * @param Filtering              $filtering
-     * @param Sorting                $sorting
-     */
-    public function __construct(EntityManagerInterface $em, PaginatorInterface $paginator, Filtering $filtering, Sorting $sorting)
-    {
-        $this->em = $em;
+    public function __construct(
+        private readonly EntityManagerInterface $em,
+        PaginatorInterface $paginator,
+        private readonly Filtering $filtering,
+        private readonly Sorting $sorting,
+    ) {
         $this->paginator = $paginator;
-        $this->filtering = $filtering;
-        $this->sorting = $sorting;
     }
 
-    /**
-     * @param Grid $grid
-     *
-     * @return PaginationInterface
-     */
     public function getData(Grid $grid, Request $request): PaginationInterface
     {
         if (false === isset($grid->getConfig()['config']['class'])) {
@@ -66,6 +40,6 @@ class DataProvider
         $this->filtering->apply($query, $grid, $request->get('criteria', []));
         $this->sorting->apply($query, $grid, $request->get('sorting', $grid->getSorting()));
 
-        return $this->paginator->paginate($query, $request->query->get('page', 1), $grid->getPageSize());
+        return $this->paginator->paginate($query, $request->query->getInt('page', 1), $grid->getPageSize());
     }
 }

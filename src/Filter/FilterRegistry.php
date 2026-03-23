@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Sherlockode\CrudBundle\Filter;
 
 class FilterRegistry
@@ -7,18 +9,12 @@ class FilterRegistry
     /**
      * @var FilterInterface[]
      */
-    private $filters;
+    private array $filters = [];
 
     public function __construct()
     {
-        $this->filters = [];
     }
 
-    /**
-     * @param string $type
-     *
-     * @return FilterInterface|null
-     */
     public function get(string $type): ?FilterInterface
     {
         foreach ($this->filters as $filter) {
@@ -31,8 +27,6 @@ class FilterRegistry
     }
 
     /**
-     * @param FilterInterface $filter
-     *
      * @return $this
      */
     public function addFilter(FilterInterface $filter): self

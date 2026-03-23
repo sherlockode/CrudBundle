@@ -1,5 +1,6 @@
 <?php
 
+declare(strict_types=1);
 
 namespace Sherlockode\CrudBundle\Routing;
 
@@ -16,8 +17,6 @@ class ResourceLoader implements LoaderInterface
     /**
      * @param $resource
      * @param $type
-     *
-     * @return RouteCollection
      */
     public function load($resource, $type = null): RouteCollection
     {
@@ -69,8 +68,6 @@ class ResourceLoader implements LoaderInterface
     /**
      * @param $resource
      * @param $type
-     *
-     * @return bool
      */
     public function supports($resource, $type = null): bool
     {
@@ -80,27 +77,16 @@ class ResourceLoader implements LoaderInterface
     /**
      * @return LoaderResolverInterface
      */
-    public function getResolver()
+    public function getResolver(): LoaderResolverInterface
     {
         // Intentionally left blank.
     }
 
-    /**
-     * @param LoaderResolverInterface $resolver
-     *
-     * @return void
-     */
     public function setResolver(LoaderResolverInterface $resolver): void
     {
         // Intentionally left blank.
     }
 
-    /**
-     * @param array  $configuration
-     * @param string $actionName
-     *
-     * @return Route
-     */
     private function createRoute(array $configuration, string $actionName): Route
     {
         $path = '';
@@ -163,12 +149,6 @@ class ResourceLoader implements LoaderInterface
         return new Route($path, $defaults);
     }
 
-    /**
-     * @param array  $configuration
-     * @param string $action
-     *
-     * @return string
-     */
     private function getRouteName(array $configuration, string $action): string
     {
         return sprintf('%s_%s_%s', $configuration['base_name'], $configuration['resource_name'], $action);

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Sherlockode\CrudBundle\Filter;
 
 use Doctrine\ORM\QueryBuilder;
@@ -12,30 +14,19 @@ class BooleanFilter implements FilterInterface
 
     public const FALSE = 'false';
 
-    /**
-     * @param string $type
-     *
-     * @return bool
-     */
     public function supports(string $type): bool
     {
         return 'boolean' === $type;
     }
 
-    /**
-     * @return string
-     */
     public function getFormType(): string
     {
         return BooleanFilterType::class;
     }
 
     /**
-     * @param QueryBuilder $query
-     * @param string       $field
      * @param string       $data
      *
-     * @return void
      */
     public function apply(QueryBuilder $query, string $field, $data): void
     {

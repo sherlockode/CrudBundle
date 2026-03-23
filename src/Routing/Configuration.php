@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Sherlockode\CrudBundle\Routing;
 
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;

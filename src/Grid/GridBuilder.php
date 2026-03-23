@@ -1,49 +1,27 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Sherlockode\CrudBundle\Grid;
 
 use Sherlockode\CrudBundle\Filter\FilterRegistry;
 
 class GridBuilder
 {
-    private $gridConfiguration;
-
     /**
-     * @var array
+     * @var mixed[]
      */
-    private $actionTemplates;
-
-    /**
-     * @var array
-     */
-    private $fieldTemplates;
-
-    /**
-     * @var FilterRegistry
-     */
-    private $filterRegistry;
-
-    /**
-     * @param GridConfiguration $gridConfiguration
-     * @param FilterRegistry    $filterRegistry
-     * @param array             $actionTemplates
-     * @param array             $fieldTemplates
-     * @param array             $filterTemplates
-     */
-    public function __construct(GridConfiguration $gridConfiguration, FilterRegistry $filterRegistry, array $actionTemplates = [], array $fieldTemplates = [], array $filterTemplates = [])
-    {
-        $this->gridConfiguration = $gridConfiguration;
-        $this->filterRegistry = $filterRegistry;
-        $this->actionTemplates = $actionTemplates;
-        $this->fieldTemplates = $fieldTemplates;
+    public $filterTemplates;
+    public function __construct(
+        private readonly GridConfiguration $gridConfiguration,
+        private readonly FilterRegistry $filterRegistry,
+        private readonly array $actionTemplates = [],
+        private readonly array $fieldTemplates = [],
+        array $filterTemplates = []
+    ) {
         $this->filterTemplates = $filterTemplates;
     }
 
-    /**
-     * @param string $code
-     *
-     * @return Grid
-     */
     public function build(string $code): Grid
     {
         $config = $this->gridConfiguration->getConfigurationByCode($code);

@@ -1,7 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Sherlockode\CrudBundle\Twig;
 
+use Twig\Attribute\AsTwigFunction;
+use Twig\Error\LoaderError;
+use Twig\Error\RuntimeError;
+use Twig\Error\SyntaxError;
 use Sherlockode\CrudBundle\Field\FieldInterface;
 use Sherlockode\CrudBundle\Grid\Field;
 use Sherlockode\CrudBundle\Grid\Filter;
@@ -9,66 +15,38 @@ use Sherlockode\CrudBundle\Grid\GridView;
 use Sherlockode\CrudBundle\Renderer\TwigRenderer;
 use Symfony\Component\HttpFoundation\Request;
 use Twig\Environment;
-use Twig\Extension\AbstractExtension;
-use Twig\TwigFunction;
 
-class CrudExtension extends AbstractExtension
+class CrudExtension
 {
-    /**
-     * @var Environment
-     */
-    private $env;
-
-    /**
-     * @var TwigRenderer
-     */
-    private $twigRenderer;
-
-    /**
-     * @param Environment  $twig
-     * @param TwigRenderer $twigRenderer
-     */
-    public function __construct(Environment $twig, TwigRenderer $twigRenderer)
-    {
-        $this->env = $twig;
-        $this->twigRenderer = $twigRenderer;
-    }
-
-    public function getFunctions(): array
-    {
-        return [
-            new TwigFunction('sherlockode_crud_render_grid', [$this, 'renderGrid'], ['is_safe' => ['html']]),
-            new TwigFunction('sherlockode_crud_render_field', [$this, 'renderField'], ['is_safe' => ['html']]),
-            new TwigFunction('sherlockode_crud_render_filter', [$this, 'renderFilter'], ['is_safe' => ['html']]),
-        ];
+    public function __construct(
+        private readonly Environment $env,
+        private readonly TwigRenderer $twigRenderer
+    ) {
     }
 
     /**
-     * @param GridView    $gridView
      * @param             $params
-     * @param string|null $template
      *
-     * @return string
      *
-     * @throws \Twig\Error\LoaderError
-     * @throws \Twig\Error\RuntimeError
-     * @throws \Twig\Error\SyntaxError
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
      */
+    #[AsTwigFunction(name: 'sherlockode_crud_render_grid', isSafe: ['html'])]
     public function renderGrid(GridView $gridView, $params = [], ?string $template = null): string
     {
         return $this->twigRenderer->renderGrid($gridView, $params, $template);
     }
 
     /**
-     * @param FieldInterface $field
      * @param                $data
      *
-     * @return string
      *
-     * @throws \Twig\Error\LoaderError
-     * @throws \Twig\Error\RuntimeError
-     * @throws \Twig\Error\SyntaxError
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
      */
+    #[AsTwigFunction(name: 'sherlockode_crud_render_field', isSafe: ['html'])]
     public function renderField(FieldInterface $field, $data): string
     {
         if ($field->getTemplate() !== null) {
@@ -82,15 +60,13 @@ class CrudExtension extends AbstractExtension
     }
 
     /**
-     * @param Filter  $filter
-     * @param Request $request
      *
-     * @return string
      *
-     * @throws \Twig\Error\LoaderError
-     * @throws \Twig\Error\RuntimeError
-     * @throws \Twig\Error\SyntaxError
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
      */
+    #[AsTwigFunction(name: 'sherlockode_crud_render_filter', isSafe: ['html'])]
     public function renderFilter(Filter $filter, Request $request): string
     {
         return $this->twigRenderer->renderFilter($filter, $request);

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Sherlockode\CrudBundle;
 
 use Sherlockode\CrudBundle\DependencyInjection\Compiler\FilterPass;
@@ -14,7 +16,7 @@ class SherlockodeCrudBundle extends Bundle
         return \dirname(__DIR__);
     }
 
-    public function build(ContainerBuilder $container)
+    public function build(ContainerBuilder $container): void
     {
         parent::build($container);
 

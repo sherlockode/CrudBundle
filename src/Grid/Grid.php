@@ -1,39 +1,17 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Sherlockode\CrudBundle\Grid;
 
 use Sherlockode\CrudBundle\Filter\FilterRegistry;
 
 class Grid
 {
-    /**
-     * @var array
-     */
-    private array $config;
+    private readonly int $pageSize;
 
-    /**
-     * @var array
-     */
-    private array $actionTemplates;
-
-    /**
-     * @var int
-     */
-    private int $pageSize;
-
-    /**
-     * @var array
-     */
-    private array $fieldTemplates;
-
-    /**
-     * @var array
-     */
     private array $sorting = [];
 
-    /**
-     * @var array
-     */
     private array $filters = [];
 
     /**
@@ -46,31 +24,19 @@ class Grid
      */
     private array $actions = [];
 
-    /**
-     * @var array
-     */
-    private array $filterTemplates;
-
-    /**
-     * @var bool
-     */
     private bool $deleteConfirmation;
 
     /**
-     * @param FilterRegistry $filterRegistry
-     * @param array          $config
-     * @param array          $actionTemplates
-     * @param array          $fieldTemplates
-     * @param array          $filterTemplates
      *
      * @throws \ReflectionException
      */
-    public function __construct(FilterRegistry $filterRegistry, array $config = [], array $actionTemplates = [], array $fieldTemplates = [], array $filterTemplates = [])
-    {
-        $this->config = $config;
-        $this->actionTemplates = $actionTemplates;
-        $this->fieldTemplates = $fieldTemplates;
-        $this->filterTemplates = $filterTemplates;
+    public function __construct(
+        FilterRegistry $filterRegistry,
+        private array $config = [],
+        private array $actionTemplates = [],
+        private array $fieldTemplates = [],
+        private array $filterTemplates = []
+    ) {
         $this->pageSize = $this->config['grid']['settings']['page_size'] ?? 20;
         $this->sorting = $this->config['grid']['sorting'] ?? [];
         $this->deleteConfirmation = $this->config['config']['delete_confirmation'] ?? true;
@@ -92,9 +58,6 @@ class Grid
         return $this;
     }
 
-    /**
-     * @return array
-     */
     public function getSorting(): array
     {
         return $this->sorting;
@@ -121,43 +84,27 @@ class Grid
         return $this->actions;
     }
 
-    /**
-     * @return array
-     */
     public function getConfig(): array
     {
         return $this->config;
     }
 
-    /**
-     * @return int
-     */
     public function getPageSize(): int
     {
-        return (int) $this->pageSize;
+        return $this->pageSize;
     }
 
-    /**
-     * @param string $name
-     *
-     * @return Filter|null
-     */
     public function getFilter(string $name): ?Filter
     {
         return $this->filters[$name] ?? null;
     }
 
-    /**
-     * @return bool
-     */
     public function hasDeleteConfirmation(): bool
     {
         return $this->deleteConfirmation;
     }
 
     /**
-     * @param bool $deleteConfirmation
-     *
      * @return $this
      */
     public function setHasDeleteConfirmation(bool $deleteConfirmation): self
@@ -167,22 +114,11 @@ class Grid
         return $this;
     }
 
-    /**
-     * @param string $string
-     *
-     * @return string
-     */
     private function camelCaseToSnakeCase(string $string): string
     {
-        return strtolower(preg_replace('/(?<!^)[A-Z]/', '_$0', $string));
+        return strtolower((string) preg_replace('/(?<!^)[A-Z]/', '_$0', $string));
     }
 
-    /**
-     * @param FilterRegistry $filterRegistry
-     * @param array          $filters
-     *
-     * @return void
-     */
     private function generateFilters(FilterRegistry $filterRegistry, array $filters): void
     {
         foreach ($filters as $key => $data) {
@@ -198,12 +134,6 @@ class Grid
         }
     }
 
-    /**
-     * @param array  $fields
-     * @param string $gridName
-     *
-     * @return void
-     */
     private function generateFields(array $fields, string $gridName): void
     {
         foreach ($fields as $key => $data) {
@@ -222,14 +152,9 @@ class Grid
         }
     }
 
-    /**
-     * @param array $actions
-     *
-     * @return void
-     */
     private function generateActions(array $actions): void
     {
-        foreach ($actions as $key => $data) {
+        foreach (array_keys($actions) as $key) {
             if (isset($this->actionTemplates[$key])) {
                 $action = new Action();
                 $action->setTemplate($this->actionTemplates[$key]);

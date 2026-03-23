@@ -1,15 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Sherlockode\CrudBundle\Routing;
 
 class Utils
 {
-    /**
-     * @param string $route
-     * @param string $actionName
-     *
-     * @return string
-     */
     public static function generatePathName(string $route, string $actionName): string
     {
         $route = explode('_', $route);
